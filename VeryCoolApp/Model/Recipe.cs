@@ -12,5 +12,6 @@ namespace VeryCoolApp.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public string Instruction { get; set; }
+        public List<Ingredient> Ingredients { get; set; }= new List<Ingredient>();
     }
 }
