@@ -25,7 +25,7 @@ namespace VeryCoolApp.Model
             return await Task.FromResult( new ObservableCollection<Recipe>( _recipes) );
         }
 
-        //вывод рецепта по айди
+        //нахождение рецепта по айди
         public async Task<Recipe> GetRecipeByIDAsync(int ID)
         {
             Recipe selectedRecipe= _recipes.FirstOrDefault(r => r.Id == ID);
@@ -44,8 +44,71 @@ namespace VeryCoolApp.Model
         public async Task AddRecipeAsync(Recipe recipe)
         { 
             recipe.Id = _recipeIdCounter++;
-            
+            _recipes.Add(recipe);
         }
+       
+        //нахождение ингридиента по айди
+        public async Task<Ingredient> GetIngredientByIDAsync(int id)
+        {
+            Ingredient selectedIngredient= _ingredients.FirstOrDefault(i => i.Id == id);
+            Ingredient newIngredient = new Ingredient()
+            {
+                Id=selectedIngredient.Id,
+                Name=selectedIngredient.Name,
+                Measurement = selectedIngredient.Measurement
+            };
+
+            return await Task.FromResult(newIngredient);
+        }
+
+        private async Task<Recipe> GetRecipe(int id)
+            => await Task.FromResult(_recipes.FirstOrDefault(r => r.Id == id));
+
+        private async Task<Ingredient> GetIngredient(int id)
+            => await Task.FromResult(_ingredients.FirstOrDefault(i=>i.Id==id));
+
+
+        //удаление рецепта по айди
+        public async Task RemoveRecipeById(int id)
+        {
+            var recipe = await GetRecipe(id);
+            if (recipe != null) 
+                _recipes.Remove(recipe);
+        }
+
+        //удаление ингридиента по айди
+        public async Task RemoveIngredientById(int id)
+        {
+            var ingredient = await GetIngredient(id);
+            if(ingredient!=null)
+                _ingredients.Remove(ingredient);
+        }
+        //редактирование рецепта
+        public async Task EditRecipe(Recipe UpdatingRecipe)
+        {
+            var recipe = await GetRecipe(UpdatingRecipe.Id);
+            if (recipe!=null)
+            {
+                recipe.Name= UpdatingRecipe.Name;
+                recipe.Ingredients=UpdatingRecipe.Ingredients;
+                recipe.Instruction=UpdatingRecipe.Instruction;
+                
+            }
+        }
+        //редактирование ингридиента
+        public async Task EditIngridient(Ingredient UpdatingIngredient)
+        {
+            var ingredient = await GetIngredient(UpdatingIngredient.Id);
+            if (ingredient!=null)
+            {
+                ingredient.Name= UpdatingIngredient.Name;
+                ingredient.Measurement=UpdatingIngredient.Measurement;
+            }
+        }
+        
+        //получение списка ингридиентов
+
+       
 
     }
 
