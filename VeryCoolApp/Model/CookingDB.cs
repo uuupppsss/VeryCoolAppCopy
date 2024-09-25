@@ -46,7 +46,14 @@ namespace VeryCoolApp.Model
             recipe.Id = _recipeIdCounter++;
             _recipes.Add(recipe);
         }
-       
+
+        //добавление ингридиента
+        public async Task AddIngredientAsync(Ingredient ingredient)
+        {
+            ingredient.Id = _ingredientIdCounter++;
+            _ingredients.Add(ingredient);
+        }
+
         //нахождение ингридиента по айди
         public async Task<Ingredient> GetIngredientByIDAsync(int id)
         {
@@ -107,9 +114,16 @@ namespace VeryCoolApp.Model
         }
         
         //получение списка ингридиентов
-
+        public async Task<ObservableCollection<Ingredient>> GetIngredientsAsync()
+        {
+            return await Task.FromResult(new ObservableCollection<Ingredient>(_ingredients));
+        }
        
-
+        //Получение ингридиента по айди
+        public async Task<Ingredient> GetIngredientByIdAsync(int id)
+        {
+            return await Task.FromResult(_ingredients.FirstOrDefault(i => i.Id == id));
+        }
     }
 
 }

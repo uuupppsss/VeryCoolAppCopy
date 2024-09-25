@@ -3,6 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VeryCoolApp.Pages.MainPage">
 
+    <StackLayout Padding="10">
+        <Label Text="Кулинарный помощник" FontSize="24" HorizontalOptions="Center" VerticalOptions="Start" />
+
+        <Button Text="Добавить Рецепт" Clicked="OnAddRecipeClicked" />
+
+        <ListView x:Name="RecipesListView" ItemTapped="OnRecipeSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
    
 
 </ContentPage>
