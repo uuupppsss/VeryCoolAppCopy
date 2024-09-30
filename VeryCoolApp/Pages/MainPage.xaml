@@ -4,11 +4,11 @@
              x:Class="VeryCoolApp.Pages.MainPage">
 
     <StackLayout Padding="10">
-        <Label Text="Кулинарный помощник" FontSize="24" HorizontalOptions="Center" VerticalOptions="Start" />
+        <Label Text="Кулинарный помощник" TextColor="#4682B4" FontSize="24" HorizontalOptions="Center" VerticalOptions="Start" Margin="10"/>
 
-        <Button Text="Добавить Рецепт" Clicked="OnAddRecipeClicked" />
+        <Button Text="Добавить Рецепт" FontSize="20" TextColor="#E0FFFF" Clicked="OnAddRecipeClicked" BackgroundColor="#4682B4" Margin="10"/>
 
-        <ListView x:Name="RecipesListView" ItemTapped="OnRecipeSelected">
+        <ListView x:Name="RecipesListView" ItemTapped="OnRecipeSelected"0>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" />
