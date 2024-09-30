@@ -15,7 +15,7 @@
 
         private void OnAddRecipeClicked(object sender, EventArgs e)
         {
-
+            
         }
 
         private void OnRecipeSelected(object sender, ItemTappedEventArgs e)
