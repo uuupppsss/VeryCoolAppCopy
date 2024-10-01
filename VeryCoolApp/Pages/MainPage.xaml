@@ -8,7 +8,7 @@
 
         <Button Text="Добавить Рецепт" FontSize="20" TextColor="#E0FFFF" Clicked="OnAddRecipeClicked" BackgroundColor="#4682B4" Margin="10"/>
 
-        <ListView x:Name="RecipesListView" ItemTapped="OnRecipeSelected" ItemsSource="{Binding Recipes}">
+        <ListView x:Name="RecipesListView" ItemTapped="OnRecipeSelected" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" />

@@ -11,15 +11,24 @@ namespace VeryCoolApp.Pages
 
         public ObservableCollection<Recipe> Recipes
         {
-            get { return _recipes; }
+            get => _recipes; 
             set { _recipes = value; }
         }
+
+        private Recipe _selectedRecipe;
+
+        public Recipe SelectedRecipe
+        {
+            get => _selectedRecipe; 
+            set { _selectedRecipe = value; }
+        }
+
 
         private ObservableCollection<Ingredient> _ingredients;
 
         public ObservableCollection<Ingredient> Ingredients
         {
-            get { return _ingredients; }
+            get => _ingredients;
             set { _ingredients = value; }
         }
 
@@ -34,6 +43,11 @@ namespace VeryCoolApp.Pages
         private async void GetRecipesAsync()
         {
            Recipes = await _cookingDB.GetRecipesAsync();
+        }
+
+        private async void GetIngredientsAsync()
+        {
+            Ingredients = await _cookingDB.GetIngredientsAsync();
         }
 
         private void OnAddRecipeClicked(object sender, EventArgs e)
