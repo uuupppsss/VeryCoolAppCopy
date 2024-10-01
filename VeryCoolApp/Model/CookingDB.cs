@@ -14,21 +14,11 @@ namespace VeryCoolApp.Model
         private int _recipeIdCounter = 1;
         private int _ingredientIdCounter = 1;
 
-        public ObservableCollection<Recipe> Recipes
-        {
-            get => _recipes;
-        }
-
-        public ObservableCollection<Ingredient> Ingredients
-        {
-            get =>_ingredients;
-        }
-
         public CookingDB()
         {
             _recipes = new ObservableCollection<Recipe>();
-            _recipes.Add(new Recipe() { Name="AAAAAAAAAAA"});
-            _recipes.Add(new Recipe() { Name = "BBBBBBBBBBB" });
+            _recipes.Add(new Recipe() { Name="жареные шмели"});
+            _recipes.Add(new Recipe() { Name = "фiмоз" });
             _ingredients = new ObservableCollection<Ingredient>();
         }
         //получение списка рецептов

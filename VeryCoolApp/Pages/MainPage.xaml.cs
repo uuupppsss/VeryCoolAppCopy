@@ -26,15 +26,14 @@ namespace VeryCoolApp.Pages
         public MainPage()
         {
             InitializeComponent();
-            GetRecipesAsync();
             _cookingDB = new CookingDB();
-            Recipes=_cookingDB.Recipes;
-            Ingredients=_cookingDB.Ingredients;
+            GetRecipesAsync();
+            BindingContext = this;
         }
 
-        private void GetRecipesAsync()
+        private async void GetRecipesAsync()
         {
-           Recipes = new ObservableCollection<Recipe>();
+           Recipes = await _cookingDB.GetRecipesAsync();
         }
 
         private void OnAddRecipeClicked(object sender, EventArgs e)
