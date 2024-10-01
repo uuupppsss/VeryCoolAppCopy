@@ -14,6 +14,16 @@ namespace VeryCoolApp.Model
         private int _recipeIdCounter = 1;
         private int _ingredientIdCounter = 1;
 
+        public ObservableCollection<Recipe> Recipes
+        {
+            get => _recipes;
+        }
+
+        public ObservableCollection<Ingredient> Ingredients
+        {
+            get =>_ingredients;
+        }
+
         public CookingDB()
         {
             _recipes = new ObservableCollection<Recipe>();

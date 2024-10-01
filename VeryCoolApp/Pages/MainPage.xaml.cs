@@ -1,36 +1,40 @@
-﻿using VeryCoolApp.Model;
+﻿using System.Collections.ObjectModel;
+using VeryCoolApp.Model;
 
 namespace VeryCoolApp.Pages
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
-        {
-            InitializeComponent();
-            GetRecipesAsync();
-        }
+        private CookingDB _cookingDB;
 
-        private List<Recipe> _recipes;
+        private ObservableCollection<Recipe> _recipes;
 
-        public List<Recipe> Recipes
+        public ObservableCollection<Recipe> Recipes
         {
             get { return _recipes; }
             set { _recipes = value; }
         }
 
-        private List<Ingredient> _ingredients;
+        private ObservableCollection<Ingredient> _ingredients;
 
-        public List<Ingredient> Ingredients
+        public ObservableCollection<Ingredient> Ingredients
         {
             get { return _ingredients; }
             set { _ingredients = value; }
         }
 
-
+        public MainPage()
+        {
+            InitializeComponent();
+            GetRecipesAsync();
+            _cookingDB = new CookingDB();
+            Recipes=_cookingDB.Recipes;
+            Ingredients=_cookingDB.Ingredients;
+        }
 
         private void GetRecipesAsync()
         {
-
+           Recipes = new ObservableCollection<Recipe>();
         }
 
         private void OnAddRecipeClicked(object sender, EventArgs e)
