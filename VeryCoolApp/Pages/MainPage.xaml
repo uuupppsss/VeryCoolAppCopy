@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VeryCoolApp.Pages.MainPage">
-
     <StackLayout Padding="10">
         <Label Text="Кулинарный помощник" TextColor="#4682B4" FontSize="24" HorizontalOptions="Center" VerticalOptions="Start" Margin="10"/>
 
@@ -16,6 +15,4 @@
             </ListView.ItemTemplate>
         </ListView>
     </StackLayout>
-
-
 </ContentPage>

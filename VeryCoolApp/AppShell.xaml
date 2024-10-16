@@ -3,13 +3,16 @@
     x:Class="VeryCoolApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:VeryCoolApp.Pages"
+    xmlns:views="clr-namespace:VeryCoolApp.Pages"
+    xmlns:local="clr-namespace:VeryCoolApp"
     Shell.FlyoutBehavior="Disabled"
     Title="VeryCoolApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Главное меню">
+        <Tab>
+            <ShellContent Title="Рецепты" ContentTemplate="{DataTemplate local:RecipesPage}" />
+            <ShellContent Title="Ингредиенты" ContentTemplate="{DataTemplate local:IngredientsPage}" />
+        </Tab>
+    </FlyoutItem>
 
 </Shell>

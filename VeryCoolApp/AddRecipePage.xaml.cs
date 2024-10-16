@@ -1,4 +1,4 @@
-namespace VeryCoolApp.Pages;
+namespace VeryCoolApp;
 
 public partial class AddRecipePage : ContentPage
 {

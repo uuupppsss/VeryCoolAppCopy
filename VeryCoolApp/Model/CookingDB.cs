@@ -17,8 +17,6 @@ namespace VeryCoolApp.Model
         public CookingDB()
         {
             _recipes = new ObservableCollection<Recipe>();
-            _recipes.Add(new Recipe() { Name="жареные шмели"});
-            _recipes.Add(new Recipe() { Name = "фiмоз" });
             _ingredients = new ObservableCollection<Ingredient>();
         }
         //получение списка рецептов
