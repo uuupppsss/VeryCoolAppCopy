@@ -8,6 +8,6 @@
 
         <ListView x:Name="IngredientsListView" ItemsSource="{Binding Ingredients}" SelectedItem="{Binding SelectedIngredient}"/>
 
-        <Button Text="Добавить"/>
+
     </StackLayout>
 </ContentPage>

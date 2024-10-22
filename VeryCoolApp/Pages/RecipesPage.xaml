@@ -12,6 +12,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="Добавить"/>
+
         </StackLayout>
 </ContentPage>

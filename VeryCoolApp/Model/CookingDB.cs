@@ -1,4 +1,5 @@
-﻿using System;
+﻿using __XamlGeneratedCode__;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace VeryCoolApp.Model
         private ObservableCollection<Ingredient> _ingredients;
         private int _recipeIdCounter = 1;
         private int _ingredientIdCounter = 1;
+
+        private readonly DB_Context _dbContext;
 
         public CookingDB()
         {
