@@ -25,7 +25,11 @@ namespace VeryCoolApp.ViewModel
         public Recipe SelectedRecipe
         {
             get => _selectedRecipe;
-            set { _selectedRecipe = value; }
+            set 
+            { 
+                _selectedRecipe = value;
+                _cookingDB.SelectedRecipe = value;
+            }
         }
 
         public CommandVM AddNewRecipe {  get; set; }

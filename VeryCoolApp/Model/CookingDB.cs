@@ -10,6 +10,7 @@ namespace VeryCoolApp.Model
 {
     public class CookingDB
     {
+        public Recipe SelectedRecipe { get; set; }
         private ObservableCollection<Recipe> _recipes;
         private ObservableCollection<Ingredient> _ingredients;
         private int _recipeIdCounter = 1;
