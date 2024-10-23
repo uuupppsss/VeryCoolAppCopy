@@ -26,8 +26,5 @@ namespace VeryCoolApp.ViewModel
             RecipeInctructions = SelectedRecipe.Instruction;
             IngredientsList=SelectedRecipe.Ingredients;
         }
-
-
-
     }
 }

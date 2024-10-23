@@ -43,7 +43,7 @@ namespace VeryCoolApp.ViewModel
 
             AddNewIngredient = new CommandVM(() =>
             {
-
+                
             });
 
             RemoveIngredient = new CommandVM(() =>

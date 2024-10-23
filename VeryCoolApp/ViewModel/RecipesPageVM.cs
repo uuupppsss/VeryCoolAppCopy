@@ -34,7 +34,6 @@ namespace VeryCoolApp.ViewModel
 
         public CommandVM AddNewRecipe {  get; set; }
         public CommandVM RemoveRecipe { get; set; }
-        public CommandVM SeeRecipe { get; set; }
 
         public RecipesPageVM()
         {
@@ -53,10 +52,6 @@ namespace VeryCoolApp.ViewModel
             
             });
 
-            SeeRecipe = new CommandVM(() => 
-            {
-            
-            });
         }
 
         private async void GetRecipesAsync()
