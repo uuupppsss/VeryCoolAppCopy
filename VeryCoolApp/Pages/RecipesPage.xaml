@@ -7,6 +7,10 @@
     <ContentPage.BindingContext>
         <vm:RecipesPageVM/>
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Добавить" Command="{Binding AddNewRecipe}"/>
+    </ContentPage.ToolbarItems>
+    
     <StackLayout Padding="10">
 
         <ListView x:Name="RecipesListView" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}">

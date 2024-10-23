@@ -7,6 +7,9 @@
     <ContentPage.BindingContext>
         <vm:IngredientsPageVM />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Добавить" />
+    </ContentPage.ToolbarItems>
     <StackLayout Padding="10">
         <ListView x:Name="IngredientsListView" ItemsSource="{Binding Ingredients}" SelectedItem="{Binding SelectedIngredient}"/>
     </StackLayout>
