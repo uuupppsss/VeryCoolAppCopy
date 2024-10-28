@@ -10,7 +10,7 @@ namespace VeryCoolApp.ViewModel
 {
     public class OnlyRecipePageVM:BaseVM
     {
-        private readonly CookingDB _cookingDB;
+        private CookingServise service;
 
         public Recipe SelectedRecipe { get; set; }
         public string RecipeName {  get; set; } 
@@ -19,8 +19,8 @@ namespace VeryCoolApp.ViewModel
 
         public OnlyRecipePageVM()
         {
-            _cookingDB = new CookingDB();
-            SelectedRecipe=_cookingDB.SelectedRecipe;
+            service = CookingServise.Instance;
+            SelectedRecipe=service.SelectedRecipe;
 
             RecipeName = SelectedRecipe.Name;
             RecipeInctructions = SelectedRecipe.Instruction;

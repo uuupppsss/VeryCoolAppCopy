@@ -14,7 +14,7 @@
         <Label Text="Описание"/>
         <Entry Text="{Binding Instruction}"/>
         <Label Text="Ингридиенты"/>
-        <ListView ItemsSource="{Binding FullIngredientsList}"/>
+        <ListView ItemsSource="{Binding FullIngredientsList}" SelectedItem="{Binding SelectedIngredient}"/>
         <Button Text="Добавить"/>
     </VerticalStackLayout>
 </ContentPage>

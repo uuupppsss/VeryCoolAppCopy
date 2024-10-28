@@ -10,11 +10,11 @@ namespace VeryCoolApp.ViewModel
 {
     public class RecipesPageVM:BaseVM
     {
-        private CookingDB _cookingDB;
+        private CookingServise service;
 
-        private ObservableCollection<Recipe> _recipes;
+        private List<Recipe> _recipes;
 
-        public ObservableCollection<Recipe> Recipes
+        public List<Recipe> Recipes
         {
             get => _recipes;
             set { _recipes = value; }
@@ -28,7 +28,7 @@ namespace VeryCoolApp.ViewModel
             set 
             { 
                 _selectedRecipe = value;
-                _cookingDB.SelectedRecipe = value;
+                service.SelectedRecipe = value;
             }
         }
 
@@ -37,10 +37,9 @@ namespace VeryCoolApp.ViewModel
 
         public RecipesPageVM()
         {
-            _cookingDB = new CookingDB();
+            service = CookingServise.Instance;
             GetRecipesAsync();
-            Recipes.Add(new Recipe() { Name = "жареные шмели" });
-            Recipes.Add(new Recipe() { Name = "гвозди в кляре" });
+            service.AddRecipeAsync(new Recipe() { Name = "жареные гвозди" });
 
             AddNewRecipe = new CommandVM(() =>
             {
@@ -56,7 +55,9 @@ namespace VeryCoolApp.ViewModel
 
         private async void GetRecipesAsync()
         {
-            Recipes = await _cookingDB.GetRecipesAsync();
+            Recipes = await service.GetAllRecipesAsync();
         }
+
+        
     }
 }

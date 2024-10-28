@@ -1,133 +1,110 @@
-﻿using __XamlGeneratedCode__;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.EntityFrameworkCore;
+
 
 namespace VeryCoolApp.Model
 {
-    public class CookingDB
+    public class CookingDB:DbContext
     {
-        public Recipe SelectedRecipe { get; set; }
-        private ObservableCollection<Recipe> _recipes;
-        private ObservableCollection<Ingredient> _ingredients;
-        private int _recipeIdCounter = 1;
-        private int _ingredientIdCounter = 1;
+        private readonly string filename;
 
-        private readonly DB_Context _dbContext;
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<IngredientValueNavigation> IngredientValueNavigations { get; set; }
 
-        public CookingDB()
+        public CookingDB(string filename)
         {
-            _recipes = new ObservableCollection<Recipe>();
-            _ingredients = new ObservableCollection<Ingredient>();
+            this.filename = filename;
         }
-        //получение списка рецептов
-        public async Task<ObservableCollection<Recipe>> GetRecipesAsync()
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            return await Task.FromResult( new ObservableCollection<Recipe>( _recipes) );
+            optionsBuilder.UseSqlite($"Filename={filename}");
+            base.OnConfiguring(optionsBuilder);
         }
 
-        //нахождение рецепта по айди
-        public async Task<Recipe> GetRecipeByIDAsync(int ID)
-        {
-            Recipe selectedRecipe= _recipes.FirstOrDefault(r => r.Id == ID);
-            Recipe newRecipe = new Recipe
-            {
-                Id = selectedRecipe.Id,
-                Name = selectedRecipe.Name, 
-                Instruction = selectedRecipe.Instruction,
-                Ingredients = selectedRecipe.Ingredients
-            };
-            
-            return await Task.FromResult(newRecipe);
-        }
+        // Методы для работы с Ingredient
 
-        //добавление рецепта
-        public async Task AddRecipeAsync(Recipe recipe)
-        { 
-            recipe.Id = _recipeIdCounter++;
-            _recipes.Add(recipe);
-        }
-
-        //добавление ингридиента
         public async Task AddIngredientAsync(Ingredient ingredient)
         {
-            ingredient.Id = _ingredientIdCounter++;
-            _ingredients.Add(ingredient);
+            Ingredients.Add(ingredient);
+            await SaveChangesAsync();
         }
 
-        //нахождение ингридиента по айди
-        public async Task<Ingredient> GetIngredientByIDAsync(int id)
+        public async Task<List<Ingredient>> GetAllIngredientsAsync()
         {
-            Ingredient selectedIngredient= _ingredients.FirstOrDefault(i => i.Id == id);
-            Ingredient newIngredient = new Ingredient()
-            {
-                Id=selectedIngredient.Id,
-                Name=selectedIngredient.Name,
-                Measurement = selectedIngredient.Measurement
-            };
-
-            return await Task.FromResult(newIngredient);
+            return await Ingredients.ToListAsync();
         }
 
-        private async Task<Recipe> GetRecipe(int id)
-            => await Task.FromResult(_recipes.FirstOrDefault(r => r.Id == id));
-
-        private async Task<Ingredient> GetIngredient(int id)
-            => await Task.FromResult(_ingredients.FirstOrDefault(i=>i.Id==id));
-
-
-        //удаление рецепта по айди
-        public async Task RemoveRecipeById(int id)
-        {
-            var recipe = await GetRecipe(id);
-            if (recipe != null) 
-                _recipes.Remove(recipe);
-        }
-
-        //удаление ингридиента по айди
-        public async Task RemoveIngredientById(int id)
-        {
-            var ingredient = await GetIngredient(id);
-            if(ingredient!=null)
-                _ingredients.Remove(ingredient);
-        }
-        //редактирование рецепта
-        public async Task EditRecipe(Recipe UpdatingRecipe)
-        {
-            var recipe = await GetRecipe(UpdatingRecipe.Id);
-            if (recipe!=null)
-            {
-                recipe.Name= UpdatingRecipe.Name;
-                recipe.Ingredients=UpdatingRecipe.Ingredients;
-                recipe.Instruction=UpdatingRecipe.Instruction;
-                
-            }
-        }
-        //редактирование ингридиента
-        public async Task EditIngridient(Ingredient UpdatingIngredient)
-        {
-            var ingredient = await GetIngredient(UpdatingIngredient.Id);
-            if (ingredient!=null)
-            {
-                ingredient.Name= UpdatingIngredient.Name;
-                ingredient.Measurement=UpdatingIngredient.Measurement;
-            }
-        }
-        
-        //получение списка ингридиентов
-        public async Task<ObservableCollection<Ingredient>> GetIngredientsAsync()
-        {
-            return await Task.FromResult(new ObservableCollection<Ingredient>(_ingredients));
-        }
-       
-        //Получение ингридиента по айди
         public async Task<Ingredient> GetIngredientByIdAsync(int id)
         {
-            return await Task.FromResult(_ingredients.FirstOrDefault(i => i.Id == id));
+            return await Ingredients.FindAsync(id);
+        }
+
+        public async Task UpdateIngredientAsync(Ingredient ingredient)
+        {
+            Ingredients.Update(ingredient);
+            await SaveChangesAsync();
+        }
+
+        public async Task DeleteIngredientAsync(int id)
+        {
+            var ingredient = await Ingredients.FindAsync(id);
+            if (ingredient != null)
+            {
+                Ingredients.Remove(ingredient);
+                await SaveChangesAsync();
+            }
+        }
+
+        // Методы для работы с Recipe
+        public async Task AddRecipeAsync(Recipe recipe)
+        {
+            Recipes.Add(recipe);
+            await SaveChangesAsync();
+        }
+
+        public async Task<List<Recipe>> GetAllRecipesAsync()
+        {
+            return await Recipes.ToListAsync();
+        }
+
+        public async Task<Recipe> GetRecipeByIdAsync(int id)
+        {
+            return await Recipes.FindAsync(id);
+        }
+
+        public async Task UpdateRecipeAsync(Recipe recipe)
+        {
+            Recipes.Update(recipe);
+            await SaveChangesAsync();
+        }
+
+        public async Task DeleteRecipeAsync(int id)
+        {
+            var recipe = await Recipes.FindAsync(id);
+            if (recipe != null)
+            {
+                Recipes.Remove(recipe);
+                await SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> IfUserExistAsync(User user)
+        {
+            return await Users.ContainsAsync(user);
+        }
+
+        public async Task<bool> CreateNewUserAsync(User user)
+        {
+            bool result= await IfUserExistAsync(user);
+            if (!result)
+            {
+                Users.Add(user);
+                await SaveChangesAsync();
+            }
+            return !result;
         }
     }
-
 }

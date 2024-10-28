@@ -10,11 +10,11 @@ namespace VeryCoolApp.ViewModel
 {
     public class IngredientsPageVM:BaseVM
     {
-        private CookingDB _cookingDB;
+        private CookingServise service;
 
-        private ObservableCollection<Ingredient> _ingredients;
+        private List<Ingredient> _ingredients;
 
-        public ObservableCollection<Ingredient> Ingredients
+        public List<Ingredient> Ingredients
         {
             get => _ingredients;
             set { _ingredients = value; }
@@ -33,8 +33,8 @@ namespace VeryCoolApp.ViewModel
 
         public IngredientsPageVM()
         {
-            _cookingDB = new CookingDB();
-            AddIngredient(new Ingredient() { Id = 1, Name = "Масло", Measurement = "мл" });
+            service = CookingServise.Instance;
+            service.AddIngredientAsync(new Ingredient() { Id = 1, Name = "Масло", Measurement = "мл" });
             GetIngredients();
             AddNewIngredient = new CommandVM(() =>
             {
@@ -49,13 +49,9 @@ namespace VeryCoolApp.ViewModel
 
         private async void GetIngredients()
         {
-            Ingredients = await _cookingDB.GetIngredientsAsync();
+            Ingredients = await service.GetAllIngredientsAsync();
         }
 
-        private async void AddIngredient(Ingredient ingredient)
-        {
-            await _cookingDB.AddIngredientAsync(ingredient);
-        }
         
     }
 }

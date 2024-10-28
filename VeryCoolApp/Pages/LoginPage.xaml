@@ -9,10 +9,11 @@
     </ContentPage.BindingContext>
     
     <VerticalStackLayout>
-        <Label Text="Login"/>
+        <Label Text="Логин"/>
         <Entry/>
-        <Label Text="Password"/>
+        <Label Text="Пароль"/>
         <Entry/>
-        <Button Text="Sign in"/>
+        <Button Text="Войти" Clicked="OnLoginClicked"/>
+        <Button Text="Регистрация" Clicked="OnRegisterClicked" />
     </VerticalStackLayout>
 </ContentPage>

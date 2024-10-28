@@ -7,11 +7,24 @@
     Shell.FlyoutBehavior="Disabled"
     Title="VeryCoolApp">
 
-    <FlyoutItem Title="Главное меню">
-        <Tab>
-            <ShellContent Title="Рецепты" ContentTemplate="{DataTemplate local:RecipesPage}" />
-            <ShellContent Title="Ингредиенты" ContentTemplate="{DataTemplate local:IngredientsPage}" />
-        </Tab>
+    <FlyoutItem Title="Главное меню" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Рецепты" ContentTemplate="{DataTemplate local:RecipesPage}" />
+        <ShellContent Title="Ингредиенты" ContentTemplate="{DataTemplate local:IngredientsPage}" />
     </FlyoutItem>
+
+    <TabBar>
+        <Tab Title="Рецепты">
+            <ShellContent ContentTemplate="{DataTemplate local:RecipesPage}" />
+        </Tab>
+        <Tab Title="Ингредиенты">
+            <ShellContent ContentTemplate="{DataTemplate local:IngredientsPage}" />
+        </Tab>
+        <Tab Title="Добавить рецепт">
+            <ShellContent ContentTemplate="{DataTemplate local:AddRecipePage}" />
+        </Tab>
+        <Tab Title="Добавить ингредиент">
+            <ShellContent ContentTemplate="{DataTemplate local:AddIngridientPage}" />
+        </Tab>
+    </TabBar>
 
 </Shell>

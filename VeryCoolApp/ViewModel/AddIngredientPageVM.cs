@@ -4,7 +4,8 @@ namespace VeryCoolApp.ViewModel
 {
     public class AddIngredientPageVM : BaseVM
     {
-        private CookingDB db;
+        private CookingServise service;
+        private DialogServise dialogServise;
         private string _name;
 
         public string Name
@@ -33,8 +34,9 @@ namespace VeryCoolApp.ViewModel
 
         public AddIngredientPageVM()
         {
-            db = new CookingDB();
-            AddNewIngredientCommand = new CommandVM(() =>
+            service = CookingServise.Instance;
+            dialogServise = DialogServise.Instance;
+            AddNewIngredientCommand = new CommandVM(async() =>
             {
                 if (Name != null && Measurement != null)
                 {
@@ -43,15 +45,15 @@ namespace VeryCoolApp.ViewModel
                         Name = Name,
                         Measurement = Measurement
                     };
-                    AddNewIngredient(ingredient_to_add);
+                    service.AddIngredientAsync(ingredient_to_add);
+                }
+                else
+                {
+                    await dialogServise.ShowWarning("Заполните все поля", "Кажется, вы что то пропустили");
                 }
 
             });
         }
 
-        private async void AddNewIngredient(Ingredient ingredient)
-        {
-            await db.AddIngredientAsync(ingredient);
-        }
     }
 }

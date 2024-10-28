@@ -10,12 +10,12 @@
     </ContentPage.BindingContext>
     
     <VerticalStackLayout>
-        <Label Text="Login"/>
+        <Label Text="Логин"/>
         <Entry Text="{Binding Login}"/>
-        <Label Text="Password"/>
+        <Label Text="Пароль"/>
         <Entry Text="{Binding Password}"/>
-        <Label Text="Confirm password"/>
+        <Label Text="Повторите пароль"/>
         <Entry Text="{Binding ConfirmPassword}"/>
-        <Button Text="Sign Up"/>
+        <Button Text="Регистрация"/>
     </VerticalStackLayout>
 </ContentPage>
