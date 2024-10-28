@@ -15,7 +15,7 @@ namespace VeryCoolApp.ViewModel
         public Recipe SelectedRecipe { get; set; }
         public string RecipeName {  get; set; } 
         public string RecipeInctructions {  get; set; } 
-        public List<Ingredient> IngredientsList { get; set; }
+        public List<IngredientValueNavigation> IngredientsList { get; set; }
 
         public OnlyRecipePageVM()
         {

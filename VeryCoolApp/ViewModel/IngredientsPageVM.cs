@@ -34,13 +34,8 @@ namespace VeryCoolApp.ViewModel
         public IngredientsPageVM()
         {
             _cookingDB = new CookingDB();
-            GetIngredientsAsync();
-
-            Ingredients.Add(new Ingredient() { Name = "шмели", Measurement = "шт" });
-            Ingredients.Add(new Ingredient() { Name = "масло", Measurement = "мл" });
-            Ingredients.Add(new Ingredient() { Name = "гвозди", Measurement = "г" });
-            Ingredients.Add(new Ingredient() { Name = "кляр", Measurement = "г" });
-
+            AddIngredient(new Ingredient() { Id = 1, Name = "Масло", Measurement = "мл" });
+            GetIngredients();
             AddNewIngredient = new CommandVM(() =>
             {
                 
@@ -52,9 +47,15 @@ namespace VeryCoolApp.ViewModel
             });
         }
 
-        private async void GetIngredientsAsync()
+        private async void GetIngredients()
         {
             Ingredients = await _cookingDB.GetIngredientsAsync();
         }
+
+        private async void AddIngredient(Ingredient ingredient)
+        {
+            await _cookingDB.AddIngredientAsync(ingredient);
+        }
+        
     }
 }

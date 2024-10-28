@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="VeryCoolApp.LoginPage"
              xmlns:vm="clr-namespace:VeryCoolApp.ViewModel"
-             Title="LoginPage">
+             x:Class="VeryCoolApp.Pages.RegistrationPage"
+             Title="RegistrationPage">
+
     <ContentPage.BindingContext>
-        <vm:LoginPageVM/>
+        <vm:RegistrationPageVM/>
     </ContentPage.BindingContext>
     
     <VerticalStackLayout>
         <Label Text="Login"/>
-        <Entry/>
+        <Entry Text="{Binding Login}"/>
         <Label Text="Password"/>
-        <Entry/>
-        <Button Text="Sign in"/>
+        <Entry Text="{Binding Password}"/>
+        <Label Text="Confirm password"/>
+        <Entry Text="{Binding ConfirmPassword}"/>
+        <Button Text="Sign Up"/>
     </VerticalStackLayout>
 </ContentPage>
