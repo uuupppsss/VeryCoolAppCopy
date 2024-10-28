@@ -34,7 +34,7 @@ namespace VeryCoolApp.ViewModel
         public IngredientsPageVM()
         {
             service = CookingServise.Instance;
-            service.AddIngredientAsync(new Ingredient() { Id = 1, Name = "Масло", Measurement = "мл" });
+            CreateDemoIngredients();
             GetIngredients();
             AddNewIngredient = new CommandVM(() =>
             {
@@ -50,6 +50,11 @@ namespace VeryCoolApp.ViewModel
         private async void GetIngredients()
         {
             Ingredients = await service.GetAllIngredientsAsync();
+        }
+
+        private async void CreateDemoIngredients()
+        {
+            await service.AddIngredientAsync(new Ingredient() { Id = 1, Name = "Масло", Measurement = "мл" });
         }
 
         

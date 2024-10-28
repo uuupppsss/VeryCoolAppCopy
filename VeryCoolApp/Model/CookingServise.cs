@@ -1,5 +1,9 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using Windows.System;
+
 namespace VeryCoolApp.Model
 {
     public class CookingServise
@@ -27,86 +31,100 @@ namespace VeryCoolApp.Model
  
         }
 
-        public async void AddIngredientAsync(Ingredient ingredient)
+        // Методы для работы с Ingredient
+
+        public async Task AddIngredientAsync(Ingredient ingredient)
         {
-            await context.AddIngredientAsync(ingredient);
+            context.Ingredients.Add(ingredient);
+            await context.SaveChangesAsync();
         }
 
         public async Task<List<Ingredient>> GetAllIngredientsAsync()
         {
-            List<Ingredient> ingredients= await context.GetAllIngredientsAsync();
-            return await Task.FromResult(new List<Ingredient>(ingredients));
+            List<Ingredient> ingredients= await context.Ingredients.ToListAsync();
+            return new List<Ingredient>(ingredients);
         }
 
         public async Task<Ingredient> GetIngredientByIdAsync(int id)
         {
-            Ingredient ingredient= await context.GetIngredientByIdAsync(id);
+            Ingredient ingredient = await context.Ingredients.FindAsync(id);
             return new Ingredient()
             {
-                Id=ingredient.Id,
-                Name=ingredient.Name,
-                Measurement=ingredient.Measurement,
+                Id=ingredient.Id, Name=ingredient.Name,Measurement=ingredient.Measurement
             };
         }
 
-        public async void UpdateIngredientAsync(Ingredient ingredient)
+        public async Task UpdateIngredientAsync(Ingredient ingredient)
         {
-            await context.UpdateIngredientAsync(ingredient);
+            context.Ingredients.Update(ingredient);
+            await context.SaveChangesAsync();
         }
 
-        public async void DeleteIngredientAsync(int id)
+        public async Task DeleteIngredientAsync(int id)
         {
-            await context.DeleteIngredientAsync(id);
+            var ingredient = await context.Ingredients.FindAsync(id);
+            if (ingredient != null)
+            {
+                context.Ingredients.Remove(ingredient);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public async void AddRecipeAsync(Recipe recipe)
+        // Методы для работы с Recipe
+        public async Task AddRecipeAsync(Recipe recipe)
         {
-            await context.AddRecipeAsync(recipe);
+            context.Recipes.Add(recipe);
+            await context.SaveChangesAsync();
         }
 
         public async Task<List<Recipe>> GetAllRecipesAsync()
         {
-            List<Recipe> recipes= await context.GetAllRecipesAsync();
+            List <Recipe> recipes= await context.Recipes.ToListAsync();
             return new List<Recipe>(recipes);
         }
 
         public async Task<Recipe> GetRecipeByIdAsync(int id)
         {
-            Recipe recipe= await context.GetRecipeByIdAsync(id);
-            return new Recipe() { Id=recipe.Id, Name=recipe.Name,Instruction=recipe.Instruction,Ingredients=recipe.Ingredients };
+            Recipe recipe= await context.Recipes.FindAsync(id);
+            return new Recipe()
+            {
+                Id=recipe.Id, Name=recipe.Name,Ingredients=recipe.Ingredients,Instruction=recipe.Instruction
+            };
         }
 
-        public async void UpdateRecipeAsync(Recipe recipe)
+        public async Task UpdateRecipeAsync(Recipe recipe)
         {
-            await context.UpdateRecipeAsync(recipe);
+            context.Recipes.Update(recipe);
+            await context.SaveChangesAsync();
         }
 
-        public async void DeleteRecipeAsync(int id)
+        public async Task DeleteRecipeAsync(int id)
         {
-            await context.DeleteRecipeAsync(id);
+            var recipe = await context.Recipes.FindAsync(id);
+            if (recipe != null)
+            {
+                context.Recipes.Remove(recipe);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public async Task<bool> SignUserUpAsync(User user)
+        public async Task<bool> IfUserExistAsync(User user)
         {
-            bool result= await context.IfUserExistAsync(user);
+            return await context.Users.ContainsAsync(user);
+        }
+
+        public async Task<bool> CreateNewUserAsync(User user)
+        {
+            bool result = await IfUserExistAsync(user);
             if (!result)
             {
-                await context.CreateNewUserAsync(user);
+                context.Users.Add(user);
+                await context.SaveChangesAsync();
             }
             return !result;
         }
 
-        public async Task<bool> SignUserInAsync(User user)
-        {
-            bool result = await context.IfUserExistAsync(user);
-            if (result)
-            {
-                CurrentUser = user;
-            }
-            return result;
-        }
 
-        
     }
 }
 

@@ -28,7 +28,6 @@ namespace VeryCoolApp.ViewModel
             set 
             { 
                 _selectedRecipe = value;
-                service.SelectedRecipe = value;
             }
         }
 
@@ -38,15 +37,14 @@ namespace VeryCoolApp.ViewModel
         public RecipesPageVM()
         {
             service = CookingServise.Instance;
+            CreateDemoRecipes();
             GetRecipesAsync();
-            service.AddRecipeAsync(new Recipe() { Name = "жареные гвозди" });
-
-            AddNewRecipe = new CommandVM(() =>
+            AddNewRecipe = new CommandVM(async() =>
             {
 
             });
 
-            RemoveRecipe = new CommandVM(() => 
+            RemoveRecipe = new CommandVM(async() => 
             { 
             
             });
@@ -56,6 +54,11 @@ namespace VeryCoolApp.ViewModel
         private async void GetRecipesAsync()
         {
             Recipes = await service.GetAllRecipesAsync();
+        }
+
+        private async void CreateDemoRecipes()
+        {
+            await service.AddRecipeAsync(new Recipe() { Name = "жареные гвозди" });
         }
 
         

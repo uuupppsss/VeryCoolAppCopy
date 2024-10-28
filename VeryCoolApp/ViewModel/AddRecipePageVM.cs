@@ -69,7 +69,7 @@ namespace VeryCoolApp.ViewModel
                 }
 				else
 				{
-                    service.AddRecipeAsync(new Recipe()
+                    await service.AddRecipeAsync(new Recipe()
                     {
                         Name = Name,
                         Instruction = Instruction,

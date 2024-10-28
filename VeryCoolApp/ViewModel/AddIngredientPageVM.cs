@@ -45,7 +45,7 @@ namespace VeryCoolApp.ViewModel
                         Name = Name,
                         Measurement = Measurement
                     };
-                    service.AddIngredientAsync(ingredient_to_add);
+                    await service.AddIngredientAsync(ingredient_to_add);
                 }
                 else
                 {

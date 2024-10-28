@@ -20,11 +20,6 @@ namespace VeryCoolApp.ViewModel
         public OnlyRecipePageVM()
         {
             service = CookingServise.Instance;
-            SelectedRecipe=service.SelectedRecipe;
-
-            RecipeName = SelectedRecipe.Name;
-            RecipeInctructions = SelectedRecipe.Instruction;
-            IngredientsList=SelectedRecipe.Ingredients;
         }
     }
 }
