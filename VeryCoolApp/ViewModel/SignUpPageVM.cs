@@ -7,7 +7,7 @@ using VeryCoolApp.Model;
 
 namespace VeryCoolApp.ViewModel
 {
-    public class RegistrationPageVM : BaseVM
+    public class SignUpPageVM : BaseVM
     {
         private DialogServise dialogServise;
         private CookingServise servise;
@@ -48,8 +48,9 @@ namespace VeryCoolApp.ViewModel
         }
 
         public CommandVM SignUpCommand { get; set; }
+        public CommandVM GoBackToSignIn { get; set; }
 
-        public RegistrationPageVM()
+        public SignUpPageVM()
         {
             servise=CookingServise.Instance;
             dialogServise=DialogServise.Instance;
@@ -66,14 +67,16 @@ namespace VeryCoolApp.ViewModel
                 }
                 else
                 {
-                    bool result = await servise.CreateNewUserAsync(new User { Login = Login, Password = Password });
-                    if (!result)
+                    bool result = await servise.IfUserExistAsync(new User { Login = Login, Password = Password });
+                    if (result)
                     {
                         await ShowWarning("Ошибочка", "Такой пользователь уже существует");
                     }
                     else
                     {
+                        await servise.CreateNewUserAsync(new User { Login = Login, Password = Password });
                         await ShowWarning("Всё чики пуки", "Добро пожаловать, приятного пользования");
+
                     }
                 }
             });

@@ -10,6 +10,7 @@ namespace VeryCoolApp.ViewModel
 {
     public class AddRecipePageVM:BaseVM
     {
+		private int lastInsertRecipeId;
 		private CookingServise service;
 		private DialogServise dialogServise;
 		private string _name;
@@ -51,7 +52,7 @@ namespace VeryCoolApp.ViewModel
 
 
 		public List<Ingredient> FullIngredientsList { get; set; }
-		private List<IngredientValueNavigation> SelectedIngredientsList;
+		private List<IngredientValue> SelectedIngredientsList;
 		public CommandVM AddNewRecipeCommand { get; set; }
 		
 
@@ -59,6 +60,7 @@ namespace VeryCoolApp.ViewModel
         {
 			service= CookingServise.Instance;
 			dialogServise= DialogServise.Instance;
+			SelectedIngredientsList = new List<IngredientValue>();
             GetIngredients();
 
 			AddNewRecipeCommand = new CommandVM(async() =>
@@ -69,13 +71,15 @@ namespace VeryCoolApp.ViewModel
                 }
 				else
 				{
+					List<IngredientValue> ingredients_values = [..SelectedIngredientsList];
                     await service.AddRecipeAsync(new Recipe()
                     {
                         Name = Name,
                         Instruction = Instruction,
-                        Ingredients = SelectedIngredientsList
+                        Ingredients = ingredients_values
                     });
-                    await dialogServise.ShowWarning("Всё чики пуки", "Ингридиент добавлен");
+					
+                    await dialogServise.ShowWarning("Всё чики пуки", "Рецепт добавлен");
                 }
 				
 			});
@@ -90,19 +94,21 @@ namespace VeryCoolApp.ViewModel
 
         private async void SelectedIngredientChanged()
         {
-			await GetInput();
+			if(SelectedIngredient!=null)
+                await GetInput();
         }
         private async Task GetInput()
         {
-            string input = await dialogServise.ShowInputDialog("Введите данные", "Введите колличество");
+            string input = await dialogServise.ShowInputDialog($"Выбранный ингредиент - {SelectedIngredient.Name}", $"Введите колличество, {SelectedIngredient.Measurement}");
 
             if (!string.IsNullOrEmpty(input)&&double.TryParse(input,out double quality))
             {
-				SelectedIngredientsList.Add(new IngredientValueNavigation()
+				SelectedIngredientsList.Add(new IngredientValue()
 				{
                     Ingredient=SelectedIngredient,
 					Quantity=quality
                 });
+				await dialogServise.ShowWarning("Так держать", $"Количество ингредиентов в рецепте: {SelectedIngredientsList.Count}") ;
             }
 			else
 			{

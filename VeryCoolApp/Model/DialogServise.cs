@@ -35,4 +35,5 @@ namespace VeryCoolApp.Model
         Task ShowWarning(string title, string message);
         Task<string> ShowInputDialog(string title, string message);
     }
+
 }

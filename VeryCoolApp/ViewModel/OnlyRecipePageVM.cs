@@ -12,14 +12,27 @@ namespace VeryCoolApp.ViewModel
     {
         private CookingServise service;
 
-        public Recipe SelectedRecipe { get; set; }
-        public string RecipeName {  get; set; } 
-        public string RecipeInctructions {  get; set; } 
-        public List<IngredientValueNavigation> IngredientsList { get; set; }
+        private Recipe _selectedRecipe;
+
+        public Recipe SelectedRecipe
+        {
+            get => _selectedRecipe; 
+            set { _selectedRecipe = value; }
+        }
+        public CommandVM DeleteRecipe { get; set; }
+        public CommandVM UpdateRecipe { get; set; }
 
         public OnlyRecipePageVM()
         {
             service = CookingServise.Instance;
+            SelectedRecipe=service.SelectedRecipe;
+
+            DeleteRecipe = new CommandVM(async () =>
+            {
+                await service.DeleteRecipeAsync(SelectedRecipe.Id);
+                await Shell.Current.GoToAsync("RecipesPage");
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
+            });
         }
     }
 }

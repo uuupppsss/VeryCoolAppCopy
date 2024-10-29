@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 
 namespace VeryCoolApp.Model
@@ -8,10 +9,10 @@ namespace VeryCoolApp.Model
     {
         private readonly string _filename;
 
-        public virtual DbSet<Ingredient> Ingredients { get; set; }
-        public virtual DbSet<Recipe> Recipes { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<IngredientValueNavigation> IngredientValueNavigations { get; set; }
+        public  DbSet<Ingredient> Ingredients { get; set; }
+        public  DbSet<Recipe> Recipes { get; set; }
+        public  DbSet<User> Users { get; set; }
+        public  DbSet<IngredientValue> IngredientValues { get; set; }
 
         public CookingDB(string filename)
         {
@@ -28,7 +29,18 @@ namespace VeryCoolApp.Model
             optionsBuilder.UseSqlite($"Data Source={filename}");
             //base.OnConfiguring(optionsBuilder);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<IngredientValue>()
+                .HasOne(ingNav => ingNav.Ingredient)
+                .WithMany()
+                .HasForeignKey(ingNav => ingNav.RecipeId);
 
-        
+            modelBuilder.Entity<Recipe>()
+                .HasMany(r => r.Ingredients)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
     }
 }

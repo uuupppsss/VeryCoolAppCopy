@@ -6,6 +6,10 @@ namespace VeryCoolApp.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public string Instruction { get; set; }
-        public List<IngredientValueNavigation> Ingredients { get; set; }= new List<IngredientValueNavigation>();
+        public List<IngredientValue> Ingredients { get; set; }= new List<IngredientValue>();
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

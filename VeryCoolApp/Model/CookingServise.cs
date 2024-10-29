@@ -1,15 +1,21 @@
 ﻿
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace VeryCoolApp.Model
 {
     public class CookingServise
     {
-        public User CurrentUser { get; set; }
+        //public User CurrentUser { get; set; }
         public Recipe SelectedRecipe { get; set; }
-        public Ingredient SelectedIngredient { get; set; }
+        //public int LastInsertRecipeId { get; set; }
+
+        public event Action IngredientsCollectionChanged;
+        public event Action RecipesCollectionChanged;
+        //public event Action UsersCollectionChanged;
         private CookingDB context;
 
         static CookingServise instance;
@@ -26,7 +32,7 @@ namespace VeryCoolApp.Model
 
         public CookingServise()
         {
-            context = new CookingDB("CookingServisedb");
+            context = new CookingDB("CookingServiseDB");
             context.Database.EnsureCreated();
         }
 
@@ -36,6 +42,7 @@ namespace VeryCoolApp.Model
         {
             context.Ingredients.Add(ingredient);
             await context.SaveChangesAsync();
+            IngredientsCollectionChanged.Invoke();
         }
 
         public async Task<List<Ingredient>> GetAllIngredientsAsync()
@@ -57,6 +64,7 @@ namespace VeryCoolApp.Model
         {
             context.Ingredients.Update(ingredient);
             await context.SaveChangesAsync();
+            IngredientsCollectionChanged.Invoke();
         }
 
         public async Task DeleteIngredientAsync(int id)
@@ -66,6 +74,7 @@ namespace VeryCoolApp.Model
             {
                 context.Ingredients.Remove(ingredient);
                 await context.SaveChangesAsync();
+                IngredientsCollectionChanged.Invoke();
             }
         }
 
@@ -74,6 +83,7 @@ namespace VeryCoolApp.Model
         {
             context.Recipes.Add(recipe);
             await context.SaveChangesAsync();
+            RecipesCollectionChanged.Invoke();
         }
 
         public async Task<List<Recipe>> GetAllRecipesAsync()
@@ -95,15 +105,17 @@ namespace VeryCoolApp.Model
         {
             context.Recipes.Update(recipe);
             await context.SaveChangesAsync();
+            RecipesCollectionChanged.Invoke();
         }
 
         public async Task DeleteRecipeAsync(int id)
         {
-            var recipe = await context.Recipes.FindAsync(id);
+            var recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
             if (recipe != null)
             {
                 context.Recipes.Remove(recipe);
                 await context.SaveChangesAsync();
+                RecipesCollectionChanged.Invoke();
             }
         }
 
@@ -112,7 +124,7 @@ namespace VeryCoolApp.Model
             return await context.Users.ContainsAsync(user);
         }
 
-        public async Task<bool> CreateNewUserAsync(User user)
+        public async Task CreateNewUserAsync(User user)
         {
             bool result = await IfUserExistAsync(user);
             if (!result)
@@ -120,10 +132,15 @@ namespace VeryCoolApp.Model
                 context.Users.Add(user);
                 await context.SaveChangesAsync();
             }
-            return !result;
         }
 
+        public int GetLastInsertRecipeId()
+        {
+            int id = context.Recipes.Max(i => i.Id);
+            return id;
+        }
 
+        
     }
 }
 

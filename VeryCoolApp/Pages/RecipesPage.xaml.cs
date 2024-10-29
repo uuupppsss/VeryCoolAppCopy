@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using VeryCoolApp.Model;
 
-namespace VeryCoolApp;
+namespace VeryCoolApp.Pages;
 
 public partial class RecipesPage : ContentPage
 {

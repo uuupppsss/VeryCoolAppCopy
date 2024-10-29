@@ -1,24 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:VeryCoolApp.ViewModel"
-             x:Class="VeryCoolApp.Pages.MainPage"
-             Title="Авторизация">
+             x:Class="VeryCoolApp.Pages.SignUpPage"
+             Title="Регистрация">
     <ContentPage.BindingContext>
-        <vm:SignInPageVM/>
+        <vm:SignUpPageVM/>
     </ContentPage.BindingContext>
-
-    <StackLayout >
+    <StackLayout>
         <HorizontalStackLayout>
             <Label Text="Логин:" />
             <Entry Text="{Binding Login}" Placeholder="Логин" PlaceholderColor="Gray" />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
-            <Label Text="Пароль:" />
+            <Label Text="Пароль" />
             <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Пароль" PlaceholderColor="Gray" />
         </HorizontalStackLayout>
-        <Button Text="Войти" Command="{Binding SignInCommand}"/>
-        <Button Text="Войти как гость" Command="{Binding EnterAsAGuestCommand}"/>
-
+        <HorizontalStackLayout>
+            <Label Text="Повторите пароль" />
+            <Entry Text="{Binding ConfirmPassword}" IsPassword="True" Placeholder="Повторите пароль" PlaceholderColor="Gray" />
+        </HorizontalStackLayout>
+        <Button Text="Регистрация" Command="{Binding SignUpCommand}"/>
     </StackLayout>
 </ContentPage>

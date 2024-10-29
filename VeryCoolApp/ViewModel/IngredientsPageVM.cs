@@ -11,13 +11,18 @@ namespace VeryCoolApp.ViewModel
     public class IngredientsPageVM:BaseVM
     {
         private CookingServise service;
+        private DialogServise dialogServise;
 
         private List<Ingredient> _ingredients;
 
         public List<Ingredient> Ingredients
         {
             get => _ingredients;
-            set { _ingredients = value; }
+            set 
+            { 
+                _ingredients = value;
+                Signal();
+            }
         }
 
         private Ingredient _selectedIngredient;
@@ -25,7 +30,10 @@ namespace VeryCoolApp.ViewModel
         public Ingredient SelectedIngredient
         {
             get => _selectedIngredient;
-            set { _selectedIngredient = value; }
+            set {
+                _selectedIngredient = value;
+                Signal();
+            }
         }
 
         public CommandVM AddNewIngredient {  get; set; }
@@ -34,7 +42,8 @@ namespace VeryCoolApp.ViewModel
         public IngredientsPageVM()
         {
             service = CookingServise.Instance;
-            CreateDemoIngredients();
+            dialogServise = DialogServise.Instance;
+            service.IngredientsCollectionChanged += GetIngredients;
             GetIngredients();
             AddNewIngredient = new CommandVM(async() =>
             {
@@ -42,10 +51,20 @@ namespace VeryCoolApp.ViewModel
                 Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             });
 
-            RemoveIngredient = new CommandVM(() =>
+            RemoveIngredient = new CommandVM(async () =>
+            {
+                if (SelectedIngredient == null)
+                {
+                    await dialogServise.ShowWarning("Себя удали", "Выберите объект для удаления");
+                }
+                else
+                {
+                    await service.DeleteIngredientAsync(SelectedIngredient.Id);
+                }
+            })
             {
 
-            });
+            };
         }
 
         private async void GetIngredients()
@@ -53,11 +72,6 @@ namespace VeryCoolApp.ViewModel
             Ingredients = await service.GetAllIngredientsAsync();
         }
 
-        private async void CreateDemoIngredients()
-        {
-            await service.AddIngredientAsync(new Ingredient() { Name = "Масло", Measurement = "мл" });
-        }
 
-        
     }
 }

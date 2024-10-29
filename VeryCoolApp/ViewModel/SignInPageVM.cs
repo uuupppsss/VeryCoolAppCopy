@@ -7,7 +7,7 @@ using VeryCoolApp.Model;
 
 namespace VeryCoolApp.ViewModel
 {
-    public class LoginPageVM:BaseVM
+    public class SignInPageVM:BaseVM
     {
         private DialogServise dialogServise;
         private CookingServise servise;
@@ -37,7 +37,9 @@ namespace VeryCoolApp.ViewModel
 
 
         public CommandVM SignInCommand { get; set; }
-        public LoginPageVM()
+        public CommandVM EnterAsAGuestCommand { get; set; }
+
+        public SignInPageVM()
         {
             servise= CookingServise.Instance;
             dialogServise = DialogServise.Instance;
@@ -51,11 +53,18 @@ namespace VeryCoolApp.ViewModel
                 if (result)
                 {
                     await ShowWarning("Всё чики пуки", "Добро пожаловать, приятного пользования");
+                    await Shell.Current.GoToAsync("//RecipesPage");
+                    Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
                 }
                 else
                 {
                     await ShowWarning("Ошибочка", "Таких не держим");
                 }
+            });
+
+            EnterAsAGuestCommand = new CommandVM(async () =>
+            {
+                await Shell.Current.GoToAsync("//RecipesPage");
             });
         }
         private async Task ShowWarning(string title, string content)
