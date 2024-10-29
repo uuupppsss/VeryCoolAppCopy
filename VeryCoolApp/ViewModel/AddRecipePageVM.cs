@@ -103,12 +103,16 @@ namespace VeryCoolApp.ViewModel
 
             if (!string.IsNullOrEmpty(input)&&double.TryParse(input,out double quality))
             {
-				SelectedIngredientsList.Add(new IngredientValue()
+				IngredientValue ingredientValue = new IngredientValue()
 				{
-                    Ingredient=SelectedIngredient,
-					Quantity=quality
-                });
-				await dialogServise.ShowWarning("Так держать", $"Количество ингредиентов в рецепте: {SelectedIngredientsList.Count}") ;
+					Ingredient = SelectedIngredient,
+					Quantity = quality
+				};
+				await service.CreateNewIngredientValueEssence(ingredientValue);
+                IngredientValue lastInsertIngredientValue=await service.GetLastInsertIngredientValueEssence();
+                SelectedIngredientsList.Add(lastInsertIngredientValue);
+                //SelectedIngredientsList.Add(ingredientValue);
+                await dialogServise.ShowWarning("Так держать", $"Количество ингредиентов в рецепте: {SelectedIngredientsList.Count}") ;
             }
 			else
 			{

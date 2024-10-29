@@ -2,7 +2,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 
 
 namespace VeryCoolApp.Model
@@ -53,7 +53,7 @@ namespace VeryCoolApp.Model
 
         public async Task<Ingredient> GetIngredientByIdAsync(int id)
         {
-            Ingredient ingredient = await context.Ingredients.FindAsync(id);
+            Ingredient ingredient = await context.Ingredients.FirstOrDefaultAsync(r => r.Id == id);
             return new Ingredient()
             {
                 Id=ingredient.Id, Name=ingredient.Name,Measurement=ingredient.Measurement
@@ -69,7 +69,7 @@ namespace VeryCoolApp.Model
 
         public async Task DeleteIngredientAsync(int id)
         {
-            var ingredient = await context.Ingredients.FindAsync(id);
+            var ingredient = await context.Ingredients.FirstOrDefaultAsync(r => r.Id == id);
             if (ingredient != null)
             {
                 context.Ingredients.Remove(ingredient);
@@ -94,7 +94,7 @@ namespace VeryCoolApp.Model
 
         public async Task<Recipe> GetRecipeByIdAsync(int id)
         {
-            Recipe recipe= await context.Recipes.FindAsync(id);
+            Recipe recipe= await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
             return new Recipe()
             {
                 Id=recipe.Id, Name=recipe.Name,Ingredients=recipe.Ingredients,Instruction=recipe.Instruction
@@ -127,7 +127,7 @@ namespace VeryCoolApp.Model
         public async Task CreateNewUserAsync(User user)
         {
             bool result = await IfUserExistAsync(user);
-            if (!result)
+            if (!result||user!=null)
             {
                 context.Users.Add(user);
                 await context.SaveChangesAsync();
@@ -139,8 +139,19 @@ namespace VeryCoolApp.Model
             int id = context.Recipes.Max(i => i.Id);
             return id;
         }
-
-        
+        public async Task CreateNewIngredientValueEssence(IngredientValue essence)
+        {
+            if (essence != null)
+            {
+                context.IngredientValues.Add(essence);
+                await context.SaveChangesAsync();
+            }
+        }
+        public async Task<IngredientValue> GetLastInsertIngredientValueEssence()
+        {
+            int id = context.IngredientValues.Max(i => i.Id);
+            return await context.IngredientValues.FirstOrDefaultAsync(r => r.Id == id);
+        }
     }
 }
 
