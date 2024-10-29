@@ -6,22 +6,27 @@ namespace VeryCoolApp.Model
 {
     public class CookingDB:DbContext
     {
-        private readonly string filename;
+        private readonly string _filename;
 
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<IngredientValueNavigation> IngredientValueNavigations { get; set; }
+        public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<Recipe> Recipes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<IngredientValueNavigation> IngredientValueNavigations { get; set; }
 
         public CookingDB(string filename)
         {
-            this.filename = filename;
+            this._filename = filename;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Filename={filename}");
-            base.OnConfiguring(optionsBuilder);
+            var sqlitePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Database");
+            Directory.CreateDirectory(sqlitePath);
+            var filename = $"{sqlitePath}\f{_filename}";
+            if (!File.Exists(filename))
+                File.Create(filename);
+            optionsBuilder.UseSqlite($"Data Source={filename}");
+            //base.OnConfiguring(optionsBuilder);
         }
 
         

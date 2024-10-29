@@ -9,6 +9,7 @@
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Добавить" Command="{Binding AddNewRecipe}"/>
+        <ToolbarItem Text="Удалить" Command="{Binding RemoveRecipe}"/>
     </ContentPage.ToolbarItems>
     
     <StackLayout Padding="10">

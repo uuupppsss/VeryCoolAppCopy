@@ -46,6 +46,7 @@ namespace VeryCoolApp.ViewModel
                         Measurement = Measurement
                     };
                     await service.AddIngredientAsync(ingredient_to_add);
+                    await dialogServise.ShowWarning("Всё чики пуки", "Ингридиент добавлен");
                 }
                 else
                 {

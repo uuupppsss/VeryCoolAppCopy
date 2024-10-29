@@ -75,6 +75,7 @@ namespace VeryCoolApp.ViewModel
                         Instruction = Instruction,
                         Ingredients = SelectedIngredientsList
                     });
+                    await dialogServise.ShowWarning("Всё чики пуки", "Ингридиент добавлен");
                 }
 				
 			});

@@ -1,4 +1,6 @@
-﻿namespace VeryCoolApp
+﻿using VeryCoolApp.Pages;
+namespace VeryCoolApp
+
 {
     public partial class App : Application
     {

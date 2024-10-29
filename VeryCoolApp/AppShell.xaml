@@ -19,12 +19,6 @@
         <Tab Title="Ингредиенты">
             <ShellContent ContentTemplate="{DataTemplate local:IngredientsPage}" />
         </Tab>
-        <Tab Title="Добавить рецепт">
-            <ShellContent ContentTemplate="{DataTemplate local:AddRecipePage}" />
-        </Tab>
-        <Tab Title="Добавить ингредиент">
-            <ShellContent ContentTemplate="{DataTemplate local:AddIngridientPage}" />
-        </Tab>
     </TabBar>
 
 </Shell>

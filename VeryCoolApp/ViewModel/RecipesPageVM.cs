@@ -37,11 +37,12 @@ namespace VeryCoolApp.ViewModel
         public RecipesPageVM()
         {
             service = CookingServise.Instance;
-            CreateDemoRecipes();
+            //CreateDemoRecipes();
             GetRecipesAsync();
             AddNewRecipe = new CommandVM(async() =>
             {
-
+                await Shell.Current.GoToAsync("AddRecipePage");
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             });
 
             RemoveRecipe = new CommandVM(async() => 

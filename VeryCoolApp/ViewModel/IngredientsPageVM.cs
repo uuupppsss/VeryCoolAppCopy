@@ -36,9 +36,10 @@ namespace VeryCoolApp.ViewModel
             service = CookingServise.Instance;
             CreateDemoIngredients();
             GetIngredients();
-            AddNewIngredient = new CommandVM(() =>
+            AddNewIngredient = new CommandVM(async() =>
             {
-                
+                await Shell.Current.GoToAsync("AddIngridientPage");
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             });
 
             RemoveIngredient = new CommandVM(() =>
@@ -54,7 +55,7 @@ namespace VeryCoolApp.ViewModel
 
         private async void CreateDemoIngredients()
         {
-            await service.AddIngredientAsync(new Ingredient() { Id = 1, Name = "Масло", Measurement = "мл" });
+            await service.AddIngredientAsync(new Ingredient() { Name = "Масло", Measurement = "мл" });
         }
 
         

@@ -8,7 +8,8 @@
         <vm:IngredientsPageVM />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Добавить" />
+        <ToolbarItem Text="Добавить" Command="{Binding AddNewIngredient}"/>
+        <ToolbarItem Text="Удалить" Command="{Binding RemoveIngredient}"/>
     </ContentPage.ToolbarItems>
     <StackLayout Padding="10">
         <ListView x:Name="IngredientsListView" ItemsSource="{Binding Ingredients}" SelectedItem="{Binding SelectedIngredient}"/>

@@ -1,8 +1,7 @@
 ﻿
-
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using Windows.System;
+
 
 namespace VeryCoolApp.Model
 {
@@ -27,8 +26,8 @@ namespace VeryCoolApp.Model
 
         public CookingServise()
         {
-            context = new CookingDB("CookingServise");
- 
+            context = new CookingDB("CookingServisedb");
+            context.Database.EnsureCreated();
         }
 
         // Методы для работы с Ingredient

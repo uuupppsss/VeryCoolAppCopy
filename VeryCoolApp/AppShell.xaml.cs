@@ -5,6 +5,8 @@
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(AddRecipePage),typeof(AddRecipePage));
+            Routing.RegisterRoute(nameof(AddIngridientPage), typeof(AddIngridientPage));
         }
     }
 }
