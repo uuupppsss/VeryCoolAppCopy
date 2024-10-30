@@ -17,11 +17,11 @@
     </TabBar>
 
     <FlyoutItem >
-        <Tab >
+        <Tab Title="Рецепты">
             <ShellContent Title="Рецепты"
                       ContentTemplate="{DataTemplate local:RecipesPage}" Route="RecipesPage"/>
         </Tab>
-        <Tab >
+        <Tab Title="Ингредиенты">
             <ShellContent Title="Ингредиенты"
                       ContentTemplate="{DataTemplate local:IngredientsPage}" Route="IngredientsPage"/>
 

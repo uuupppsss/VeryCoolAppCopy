@@ -67,7 +67,7 @@ namespace VeryCoolApp.ViewModel
                 }
                 else
                 {
-                    bool result = await servise.IfUserExistAsync(new User { Login = Login, Password = Password });
+                    bool result = await servise.IfUserExistAsync(Login);
                     if (result)
                     {
                         await ShowWarning("Ошибочка", "Такой пользователь уже существует");

@@ -78,7 +78,6 @@ namespace VeryCoolApp.ViewModel
                         Instruction = Instruction,
                         Ingredients = ingredients_values
                     });
-					
                     await dialogServise.ShowWarning("Всё чики пуки", "Рецепт добавлен");
                 }
 				
@@ -111,12 +110,16 @@ namespace VeryCoolApp.ViewModel
 					RecipeId = service.GetLastInsertRecipeId()+1
 					//------------------------------------------
 				};
-				// ------------------------------------------------------------------
-				await service.CreateNewIngredientValueEssence(ingredientValue);
-                IngredientValue lastInsertIngredientValue=await service.GetLastInsertIngredientValueEssence();
-                SelectedIngredientsList.Add(lastInsertIngredientValue);
+                await dialogServise.ShowWarning("Id рецепта ", $"{ingredientValue.RecipeId}");
+
+                // ------------------------------------------------------------------
+				//ошибка
+                await service.CreateNewIngredientValueEssence(ingredientValue);
+
+                IngredientValue lastInsertIngredientValue = await service.GetLastInsertIngredientValueEssence();
+				SelectedIngredientsList.Add(lastInsertIngredientValue);
 				//-------------------------------------------------------------------
-                //SelectedIngredientsList.Add(ingredientValue);
+				//SelectedIngredientsList.Add(ingredientValue);
                 await dialogServise.ShowWarning("Так держать", $"Количество ингредиентов в рецепте: {SelectedIngredientsList.Count}") ;
             }
 			else

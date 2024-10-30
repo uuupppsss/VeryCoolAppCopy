@@ -49,12 +49,12 @@ namespace VeryCoolApp.ViewModel
                 {
                     await ShowWarning("Заполните все поля", "Кажется, вы что то забыли");
                 }
-                bool result = await servise.IfUserExistAsync(new User { Login = Login, Password = Password });
+                bool result = await servise.SignUserIn(new User { Login = Login, Password = Password });
                 if (result)
                 {
                     await ShowWarning("Всё чики пуки", "Добро пожаловать, приятного пользования");
                     await Shell.Current.GoToAsync("//RecipesPage");
-                    Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+                    //Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
                 }
                 else
                 {

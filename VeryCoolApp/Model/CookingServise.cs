@@ -32,7 +32,7 @@ namespace VeryCoolApp.Model
 
         public CookingServise()
         {
-            context = new CookingDB("CookingServiseDB");
+            context = new CookingDB("CookingServiseTestDb");
             context.Database.EnsureCreated();
         }
 
@@ -119,14 +119,21 @@ namespace VeryCoolApp.Model
             }
         }
 
-        public async Task<bool> IfUserExistAsync(User user)
+        public async Task<bool> IfUserExistAsync(string login)
         {
-            return await context.Users.ContainsAsync(user);
+            User _user = await context.Users.FirstOrDefaultAsync(u => u.Login == login);
+            return _user != null;
+        }
+
+        public async Task<bool> SignUserIn(User user)
+        {
+            User _user = await context.Users.FirstOrDefaultAsync(u => u.Login == user.Login);
+            return user != null && user.Password == _user.Password;
         }
 
         public async Task CreateNewUserAsync(User user)
         {
-            bool result = await IfUserExistAsync(user);
+            bool result = await IfUserExistAsync(user.Login);
             if (!result||user!=null)
             {
                 context.Users.Add(user);
@@ -136,8 +143,12 @@ namespace VeryCoolApp.Model
 
         public int GetLastInsertRecipeId()
         {
-            int id = context.Recipes.Max(i => i.Id);
-            return id;
+            if (context.Recipes.Count() > 0)
+            {
+                int id = context.Recipes.Max(i => i.Id);
+                return id;
+            }
+            else return 0;
         }
         public async Task CreateNewIngredientValueEssence(IngredientValue essence)
         {
