@@ -8,6 +8,7 @@ using VeryCoolApp.Model;
 
 namespace VeryCoolApp.ViewModel
 {
+    [QueryProperty(nameof(SelectedRecipe), "SelectedRecipe")]
     public class OnlyRecipePageVM:BaseVM
     {
         private CookingServise service;
@@ -25,7 +26,7 @@ namespace VeryCoolApp.ViewModel
         public OnlyRecipePageVM()
         {
             service = CookingServise.Instance;
-            SelectedRecipe=service.SelectedRecipe;
+            //SelectedRecipe=service.SelectedRecipe;
 
             DeleteRecipe = new CommandVM(async () =>
             {

@@ -29,18 +29,18 @@ namespace VeryCoolApp.Model
             optionsBuilder.UseSqlite($"Data Source={filename}");
             //base.OnConfiguring(optionsBuilder);
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<IngredientValue>()
-                .HasOne(ingNav => ingNav.Ingredient)
-                .WithMany()
-                .HasForeignKey(ingNav => ingNav.RecipeId);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<IngredientValue>()
+        //        .HasOne(ingNav => ingNav.IngredientId)
+        //        .WithMany()
+        //        .HasForeignKey(ingNav => ingNav.RecipeId);
 
-            modelBuilder.Entity<Recipe>()
-                .HasMany(r => r.Ingredients)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-        }
+        //    modelBuilder.Entity<Recipe>()
+        //        .HasMany(r => r.Ingredients)
+        //        .WithOne()
+        //        .OnDelete(DeleteBehavior.Cascade);
+        //}
 
     }
 }

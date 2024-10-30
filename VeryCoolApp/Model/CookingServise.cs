@@ -10,7 +10,7 @@ namespace VeryCoolApp.Model
     public class CookingServise
     {
         //public User CurrentUser { get; set; }
-        public Recipe SelectedRecipe { get; set; }
+        //public Recipe SelectedRecipe { get; set; }
         //public int LastInsertRecipeId { get; set; }
 
         public event Action IngredientsCollectionChanged;
@@ -88,7 +88,7 @@ namespace VeryCoolApp.Model
 
         public async Task<List<Recipe>> GetAllRecipesAsync()
         {
-            List <Recipe> recipes= await context.Recipes.ToListAsync();
+            List <Recipe> recipes= await context.Recipes.Include(s => s.Ingredients).ThenInclude(s => s.Ingredient).ToListAsync();
             return new List<Recipe>(recipes);
         }
 
@@ -141,28 +141,28 @@ namespace VeryCoolApp.Model
             }
         }
 
-        public int GetLastInsertRecipeId()
-        {
-            if (context.Recipes.Count() > 0)
-            {
-                int id = context.Recipes.Max(i => i.Id);
-                return id;
-            }
-            else return 0;
-        }
-        public async Task CreateNewIngredientValueEssence(IngredientValue essence)
-        {
-            if (essence != null)
-            {
-                context.IngredientValues.Add(essence);
-                await context.SaveChangesAsync();
-            }
-        }
-        public async Task<IngredientValue> GetLastInsertIngredientValueEssence()
-        {
-            int id = context.IngredientValues.Max(i => i.Id);
-            return await context.IngredientValues.FirstOrDefaultAsync(r => r.Id == id);
-        }
+        //public int GetLastInsertRecipeId()
+        //{
+        //    if (context.Recipes.Count() > 0)
+        //    {
+        //        int id = context.Recipes.Max(i => i.Id);
+        //        return id;
+        //    }
+        //    else return 0;
+        //}
+        //public async Task CreateNewIngredientValueEssence(IngredientValue essence)
+        //{
+        //    if (essence != null)
+        //    {
+        //        context.IngredientValues.Add(essence);
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
+        //public async Task<IngredientValue> GetLastInsertIngredientValueEssence()
+        //{
+        //    int id = context.IngredientValues.Max(i => i.Id);
+        //    return await context.IngredientValues.FirstOrDefaultAsync(r => r.Id == id);
+        //}
     }
 }
 

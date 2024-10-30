@@ -104,22 +104,17 @@ namespace VeryCoolApp.ViewModel
             {
 				IngredientValue ingredientValue = new IngredientValue()
 				{
-					Ingredient = SelectedIngredient,
+					IngredientId = SelectedIngredient.Id,
 					Quantity = quality,
-					//-------------------------------------------
-					RecipeId = service.GetLastInsertRecipeId()+1
-					//------------------------------------------
 				};
-                await dialogServise.ShowWarning("Id рецепта ", $"{ingredientValue.RecipeId}");
-
                 // ------------------------------------------------------------------
 				//ошибка
-                await service.CreateNewIngredientValueEssence(ingredientValue);
+                //await service.CreateNewIngredientValueEssence(ingredientValue);
 
-                IngredientValue lastInsertIngredientValue = await service.GetLastInsertIngredientValueEssence();
-				SelectedIngredientsList.Add(lastInsertIngredientValue);
+                //IngredientValue lastInsertIngredientValue = await service.GetLastInsertIngredientValueEssence();
+				//SelectedIngredientsList.Add(lastInsertIngredientValue);
 				//-------------------------------------------------------------------
-				//SelectedIngredientsList.Add(ingredientValue);
+				SelectedIngredientsList.Add(ingredientValue);
                 await dialogServise.ShowWarning("Так держать", $"Количество ингредиентов в рецепте: {SelectedIngredientsList.Count}") ;
             }
 			else

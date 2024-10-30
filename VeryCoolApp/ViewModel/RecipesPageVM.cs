@@ -51,21 +51,25 @@ namespace VeryCoolApp.ViewModel
                 await Shell.Current.GoToAsync("AddRecipePage");
                 Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             });
+            SelectedRecipe = null;
         }
 
         private async void GetRecipesAsync()
         {
             Recipes = await service.GetAllRecipesAsync();
-            if (Recipes.Count>0)
-            await dialogServise.ShowWarning("Рецепт внесён", $"Id последнего рецепта - {service.GetLastInsertRecipeId()}");
+            
         }
         
         private async void SelectedRecipeChanged(Recipe recipe)
         {
             if (recipe != null)
             {
-                service.SelectedRecipe = recipe;
-                await Shell.Current.GoToAsync("OnlyRecipe");
+                //service.SelectedRecipe = recipe;
+                var navigationParameter = new Dictionary<string, object>
+                {
+                    { "SelectedRecipe", recipe }
+                };
+                await Shell.Current.GoToAsync("OnlyRecipe", navigationParameter);
                 Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             }
         }
