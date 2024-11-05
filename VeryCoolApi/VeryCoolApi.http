@@ -1,0 +1,6 @@
+@VeryCoolApi_HostAddress = http://localhost:5161
+
+GET {{VeryCoolApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -65,7 +65,7 @@ namespace VeryCoolApp.ViewModel
             if (recipe != null)
             {
                 //service.SelectedRecipe = recipe;
-                var navigationParameter = new Dictionary<string, object>
+                var navigationParameter = new ShellNavigationQueryParameters
                 {
                     { "SelectedRecipe", recipe }
                 };
