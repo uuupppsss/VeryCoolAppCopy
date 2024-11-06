@@ -53,6 +53,7 @@ namespace VeryCoolApp.ViewModel
                 if (result)
                 {
                     await ShowWarning("Всё чики пуки", "Добро пожаловать, приятного пользования");
+                    Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
                     await Shell.Current.GoToAsync("//RecipesPage");
                     //Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
                 }

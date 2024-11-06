@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VeryCoolApp.Model;
+using VeryCoolApp.Pages;
 
 namespace VeryCoolApp.ViewModel
 {
@@ -39,6 +40,7 @@ namespace VeryCoolApp.ViewModel
         }
 
         public CommandVM AddNewRecipe {  get; set; }
+        public CommandVM LogOutCommand { get; set; }
 
         public RecipesPageVM()
         {
@@ -49,6 +51,12 @@ namespace VeryCoolApp.ViewModel
             AddNewRecipe = new CommandVM(async() =>
             {
                 await Shell.Current.GoToAsync("AddRecipePage");
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+            });
+
+            LogOutCommand = new CommandVM(async () =>
+            {
+                await Shell.Current.GoToAsync("//MainPage");
                 Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             });
             SelectedRecipe = null;

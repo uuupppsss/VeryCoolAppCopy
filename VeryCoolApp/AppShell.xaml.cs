@@ -13,6 +13,7 @@ namespace VeryCoolApp
             Routing.RegisterRoute(nameof(OnlyRecipe), typeof(OnlyRecipe));
             Routing.RegisterRoute(nameof(RecipesPage), typeof(RecipesPage));
             Routing.RegisterRoute(nameof(IngredientsPage), typeof(IngredientsPage));
+            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
 
         }
     }

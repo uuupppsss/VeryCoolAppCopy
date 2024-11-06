@@ -16,13 +16,17 @@ namespace VeryCoolApp.ViewModel
         private Recipe _selectedRecipe;
 
         public Recipe SelectedRecipe
+        
         {
             get => _selectedRecipe; 
-            set { _selectedRecipe = value; }
+            set
+            { 
+                _selectedRecipe = value;
+                Signal();
+            }
+
         }
         public CommandVM DeleteRecipe { get; set; }
-        public CommandVM UpdateRecipe { get; set; }
-
         public OnlyRecipePageVM()
         {
             service = CookingServise.Instance;
@@ -31,7 +35,7 @@ namespace VeryCoolApp.ViewModel
             DeleteRecipe = new CommandVM(async () =>
             {
                 await service.DeleteRecipeAsync(SelectedRecipe.Id);
-                await Shell.Current.GoToAsync("RecipesPage");
+                await Shell.Current.GoToAsync("///RecipesPage");
                 Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
             });
         }
