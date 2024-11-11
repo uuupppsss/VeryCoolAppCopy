@@ -51,13 +51,12 @@ namespace VeryCoolApp.ViewModel
             AddNewRecipe = new CommandVM(async() =>
             {
                 await Shell.Current.GoToAsync("AddRecipePage");
-                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             });
 
             LogOutCommand = new CommandVM(async () =>
             {
                 await Shell.Current.GoToAsync("//MainPage");
-                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
             });
             SelectedRecipe = null;
         }
@@ -72,13 +71,11 @@ namespace VeryCoolApp.ViewModel
         {
             if (recipe != null)
             {
-                //service.SelectedRecipe = recipe;
                 var navigationParameter = new ShellNavigationQueryParameters
                 {
                     { "SelectedRecipe", recipe }
                 };
                 await Shell.Current.GoToAsync("OnlyRecipe", navigationParameter);
-                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             }
         }
     }

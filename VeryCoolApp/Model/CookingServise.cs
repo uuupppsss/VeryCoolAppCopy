@@ -60,12 +60,12 @@ namespace VeryCoolApp.Model
             };
         }
 
-        public async Task UpdateIngredientAsync(Ingredient ingredient)
-        {
-            context.Ingredients.Update(ingredient);
-            await context.SaveChangesAsync();
-            IngredientsCollectionChanged.Invoke();
-        }
+        //public async Task UpdateIngredientAsync(Ingredient ingredient)
+        //{
+        //    context.Ingredients.Update(ingredient);
+        //    await context.SaveChangesAsync();
+        //    IngredientsCollectionChanged.Invoke();
+        //}
 
         public async Task DeleteIngredientAsync(int id)
         {
@@ -101,12 +101,12 @@ namespace VeryCoolApp.Model
             };
         }
 
-        public async Task UpdateRecipeAsync(Recipe recipe)
-        {
-            context.Recipes.Update(recipe);
-            await context.SaveChangesAsync();
-            RecipesCollectionChanged.Invoke();
-        }
+        //public async Task UpdateRecipeAsync(Recipe recipe)
+        //{
+        //    context.Recipes.Update(recipe);
+        //    await context.SaveChangesAsync();
+        //    RecipesCollectionChanged.Invoke();
+        //}
 
         public async Task DeleteRecipeAsync(int id)
         {

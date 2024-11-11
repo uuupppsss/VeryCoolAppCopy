@@ -14,6 +14,8 @@
                       ContentTemplate="{DataTemplate local:SignUpPage}"/>
         </Tab>
     </TabBar>
+    
+  
 
         <Tab Title="Рецепты">
             <ShellContent Title="Рецепты"

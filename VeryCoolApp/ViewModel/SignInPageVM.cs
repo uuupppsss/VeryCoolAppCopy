@@ -55,7 +55,6 @@ namespace VeryCoolApp.ViewModel
                     await ShowWarning("Всё чики пуки", "Добро пожаловать, приятного пользования");
                     Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
                     await Shell.Current.GoToAsync("//RecipesPage");
-                    //Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
                 }
                 else
                 {
@@ -66,6 +65,7 @@ namespace VeryCoolApp.ViewModel
             EnterAsAGuestCommand = new CommandVM(async () =>
             {
                 await Shell.Current.GoToAsync("//RecipesPage");
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
             });
         }
         private async Task ShowWarning(string title, string content)
