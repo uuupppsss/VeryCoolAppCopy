@@ -1,23 +1,13 @@
 ﻿
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-
-
+using System.Text;
+using System.Text.Json;
+using System.Net.Http.Json;
 
 namespace VeryCoolApp.Model
 {
     public class CookingServise
     {
-        //public User CurrentUser { get; set; }
-        //public Recipe SelectedRecipe { get; set; }
-        //public int LastInsertRecipeId { get; set; }
-
-        public event Action IngredientsCollectionChanged;
-        public event Action RecipesCollectionChanged;
-        //public event Action UsersCollectionChanged;
-        private CookingDB context;
-
+        private HttpClient client;
         static CookingServise instance;
 
         public static CookingServise Instance
@@ -32,137 +22,110 @@ namespace VeryCoolApp.Model
 
         public CookingServise()
         {
-            context = new CookingDB("CookingServiseTestDb");
-            context.Database.EnsureCreated();
+            client = new HttpClient
+            {
+                BaseAddress = new Uri("http://10.0.2.2:5161/api")
+            };
         }
 
         // Методы для работы с Ingredient
 
         public async Task AddIngredientAsync(Ingredient ingredient)
         {
-            context.Ingredients.Add(ingredient);
-            await context.SaveChangesAsync();
-            IngredientsCollectionChanged.Invoke();
+            string arg=JsonSerializer.Serialize(ingredient);
+            var responce= await client.PostAsync($"Ingredients/CreateNewIngredient?ingredient={arg}",
+              new StringContent(arg, Encoding.UTF8, "application/json"));
+            responce.EnsureSuccessStatusCode();
         }
 
         public async Task<List<Ingredient>> GetAllIngredientsAsync()
         {
-            List<Ingredient> ingredients= await context.Ingredients.ToListAsync();
-            return new List<Ingredient>(ingredients);
+            var responce = await client.GetAsync("Ingredients/GetIngredientsList");
+            if (responce.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return await responce.Content.ReadFromJsonAsync<List<Ingredient>>();            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Ingredient> GetIngredientByIdAsync(int id)
         {
-            Ingredient ingredient = await context.Ingredients.FirstOrDefaultAsync(r => r.Id == id);
-            return new Ingredient()
+            var responce = await client.GetAsync($"Ingredients/GetIngredientById?id={id}");
+            if (responce.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                Id=ingredient.Id, Name=ingredient.Name,Measurement=ingredient.Measurement
-            };
+                return await responce.Content.ReadFromJsonAsync<Ingredient>();
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        //public async Task UpdateIngredientAsync(Ingredient ingredient)
-        //{
-        //    context.Ingredients.Update(ingredient);
-        //    await context.SaveChangesAsync();
-        //    IngredientsCollectionChanged.Invoke();
-        //}
 
         public async Task DeleteIngredientAsync(int id)
         {
-            var ingredient = await context.Ingredients.FirstOrDefaultAsync(r => r.Id == id);
-            if (ingredient != null)
-            {
-                context.Ingredients.Remove(ingredient);
-                await context.SaveChangesAsync();
-                IngredientsCollectionChanged.Invoke();
-            }
+
         }
 
         // Методы для работы с Recipe
         public async Task AddRecipeAsync(Recipe recipe)
         {
-            context.Recipes.Add(recipe);
-            await context.SaveChangesAsync();
-            RecipesCollectionChanged.Invoke();
+            string arg=JsonSerializer.Serialize(recipe);
+            var responce = await client.PostAsync($"Recipes/CreateNewRecipe?recipe={arg}",
+                new StringContent(arg, Encoding.UTF8, "application/json"));
+            responce.EnsureSuccessStatusCode();
         }
 
         public async Task<List<Recipe>> GetAllRecipesAsync()
         {
-            List <Recipe> recipes= await context.Recipes.Include(s => s.Ingredients).ThenInclude(s => s.Ingredient).ToListAsync();
-            return new List<Recipe>(recipes);
+            var responce = await client.GetAsync("Recipes/GetRecipesList");
+            if (responce.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return await responce.Content.ReadFromJsonAsync<List<Recipe>>();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Recipe> GetRecipeByIdAsync(int id)
         {
-            Recipe recipe= await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
-            return new Recipe()
+            var responce = await client.GetAsync($"Recipes/GetRecipeById?id={id}");
+            if (responce.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                Id=recipe.Id, Name=recipe.Name,Ingredients=recipe.Ingredients,Instruction=recipe.Instruction
-            };
+                return await responce.Content.ReadFromJsonAsync<Recipe>();
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        //public async Task UpdateRecipeAsync(Recipe recipe)
-        //{
-        //    context.Recipes.Update(recipe);
-        //    await context.SaveChangesAsync();
-        //    RecipesCollectionChanged.Invoke();
-        //}
 
         public async Task DeleteRecipeAsync(int id)
         {
-            var recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
-            if (recipe != null)
-            {
-                context.Recipes.Remove(recipe);
-                await context.SaveChangesAsync();
-                RecipesCollectionChanged.Invoke();
-            }
+
         }
 
         public async Task<bool> IfUserExistAsync(string login)
         {
-            User _user = await context.Users.FirstOrDefaultAsync(u => u.Login == login);
-            return _user != null;
+
         }
 
-        public async Task<bool> SignUserIn(User user)
+        public async Task<bool> SignUserInAsync(User user)
         {
-            User _user = await context.Users.FirstOrDefaultAsync(u => u.Login == user.Login);
-            return user != null && user.Password == _user.Password;
+            string arg = JsonSerializer.Serialize(user);
+            var responce = client.GetAsync($"User/SignUserIn?user={arg}");
         }
 
         public async Task CreateNewUserAsync(User user)
         {
-            bool result = await IfUserExistAsync(user.Login);
-            if (!result||user!=null)
-            {
-                context.Users.Add(user);
-                await context.SaveChangesAsync();
-            }
+
         }
 
-        //public int GetLastInsertRecipeId()
-        //{
-        //    if (context.Recipes.Count() > 0)
-        //    {
-        //        int id = context.Recipes.Max(i => i.Id);
-        //        return id;
-        //    }
-        //    else return 0;
-        //}
-        //public async Task CreateNewIngredientValueEssence(IngredientValue essence)
-        //{
-        //    if (essence != null)
-        //    {
-        //        context.IngredientValues.Add(essence);
-        //        await context.SaveChangesAsync();
-        //    }
-        //}
-        //public async Task<IngredientValue> GetLastInsertIngredientValueEssence()
-        //{
-        //    int id = context.IngredientValues.Max(i => i.Id);
-        //    return await context.IngredientValues.FirstOrDefaultAsync(r => r.Id == id);
-        //}
     }
 }
 

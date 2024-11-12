@@ -30,7 +30,6 @@ namespace VeryCoolApp.ViewModel
         public OnlyRecipePageVM()
         {
             service = CookingServise.Instance;
-            //SelectedRecipe=service.SelectedRecipe;
 
             DeleteRecipe = new CommandVM(async () =>
             {

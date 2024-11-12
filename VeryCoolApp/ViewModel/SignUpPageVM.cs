@@ -52,7 +52,7 @@ namespace VeryCoolApp.ViewModel
 
         public SignUpPageVM()
         {
-            servise=CookingServise.Instance;
+            servise= CookingServise.Instance;
             dialogServise=DialogServise.Instance;
 
             SignUpCommand = new CommandVM(async () =>

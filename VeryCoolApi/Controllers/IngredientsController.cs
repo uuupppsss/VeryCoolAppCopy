@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VeryCoolApi.Model;
 
 namespace VeryCoolApi.Controllers
@@ -34,16 +35,16 @@ namespace VeryCoolApi.Controllers
         public async Task<ActionResult<Ingredient>> GetIngredientById(int id)
         {
             if (id==0) return BadRequest("Invalid data");
-            Ingredient ingredient= context.Ingredients.FirstOrDefault(x => x.Id==id);
+            Ingredient ingredient= await context.Ingredients.FirstOrDefaultAsync(x => x.Id==id);
             if (ingredient == null) return NotFound();
             return Ok(ingredient);
         }
 
-        [HttpDelete("DeleteIngredient")]
+        [HttpGet("DeleteIngredient")]
         public async Task<ActionResult> DeleteIngredient(int id)
         {
             if (id == 0) return BadRequest("Invalid data");
-            Ingredient ingredient = context.Ingredients.FirstOrDefault(x => x.Id == id);
+            Ingredient ingredient = await context.Ingredients.FirstOrDefaultAsync(x => x.Id == id);
             if (ingredient == null) return NotFound();
             context.Ingredients.Remove(ingredient);
             await context.SaveChangesAsync();
