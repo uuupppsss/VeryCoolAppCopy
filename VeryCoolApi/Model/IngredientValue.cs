@@ -12,4 +12,8 @@ public partial class IngredientValue
     public int IngredientId { get; set; }
 
     public double Quantity { get; set; }
+
+    public virtual Ingredient Ingredient { get; set; } = null!;
+
+    public virtual Recipe Recipe { get; set; } = null!;
 }

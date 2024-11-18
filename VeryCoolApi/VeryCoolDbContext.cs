@@ -39,7 +39,7 @@ public partial class VeryCoolDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("Ingredient");
+            entity.ToTable("IngredientDTO");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Measurement)
@@ -56,9 +56,23 @@ public partial class VeryCoolDbContext : DbContext
 
             entity.ToTable("IngredientValue");
 
+            entity.HasIndex(e => e.IngredientId, "FK_IngredientValue_Ingredient_Id");
+
+            entity.HasIndex(e => e.RecipeId, "FK_IngredientValue_Recipe_Id");
+
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.IngredientId).HasColumnType("int(11)");
             entity.Property(e => e.RecipeId).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.Ingredient).WithMany(p => p.IngredientValues)
+                .HasForeignKey(d => d.IngredientId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_IngredientValue_Ingredient_Id");
+
+            entity.HasOne(d => d.Recipe).WithMany(p => p.IngredientValues)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_IngredientValue_Recipe_Id");
         });
 
         modelBuilder.Entity<Recipe>(entity =>

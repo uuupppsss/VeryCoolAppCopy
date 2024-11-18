@@ -25,7 +25,7 @@ namespace VeryCoolApi.Controllers
             return Ok(true);
         }
 
-        [HttpGet("SignUserIn")]
+        [HttpPost("SignUserIn")]
         public async Task<ActionResult<bool>> SignUserIn(User user)
         {
             if (user == null)
