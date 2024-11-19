@@ -28,7 +28,7 @@ namespace VeryCoolApp.Model
         {
             client = new HttpClient
             {
-                BaseAddress = new Uri("http://10.0.2.2:5161/api")
+                BaseAddress = new Uri("http://10.0.2.2:5161/api/")
             };
             dialogServise=DialogServise.Instance;
         }
@@ -41,7 +41,7 @@ namespace VeryCoolApp.Model
             {
                 string json = JsonSerializer.Serialize(ingredient);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var responce = await client.PostAsync("Ingredients/CreateNewIngredient", content);
+                var responce = await client.PostAsync("IngredientValues/CreateNewIngredient", content);
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");
@@ -59,7 +59,7 @@ namespace VeryCoolApp.Model
         {
             try
             {
-                var responce = await client.GetAsync("Ingredients/GetIngredientsList");
+                var responce = await client.GetAsync("IngredientValues/GetIngredientsList");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");
@@ -78,7 +78,7 @@ namespace VeryCoolApp.Model
         {
             try
             {
-                var responce = await client.GetAsync($"Ingredients/GetIngredientById?id={id}");
+                var responce = await client.GetAsync($"IngredientValues/GetIngredientById?id={id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");
@@ -101,7 +101,7 @@ namespace VeryCoolApp.Model
         {
             try
             {
-                var responce = await client.GetAsync($"Ingredients/DeleteIngredient?id={id}");
+                var responce = await client.GetAsync($"IngredientValues/DeleteIngredient?id={id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");

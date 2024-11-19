@@ -7,7 +7,7 @@ public partial class RecipeDTO
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 
-    public string Instruction { get; set; } = null!;
+    public string Instruction { get; set; } 
 }

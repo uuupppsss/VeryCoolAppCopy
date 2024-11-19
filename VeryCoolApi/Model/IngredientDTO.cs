@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace VeryCoolApi.Model;
 
-public partial class IngredientDTO
+public class IngredientDTO
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 
-    public string Measurement { get; set; } = null!;
+    public string Measurement { get; set; }
 }

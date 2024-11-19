@@ -16,9 +16,17 @@ namespace VeryCoolApi.Controllers
         }
 
         [HttpPost("CreateNewRecipe")]
-        public async Task<ActionResult> CreateNewRecipe(Recipe recipe)
+        public async Task<ActionResult> CreateNewRecipe(RecipeDTO recipedto)
         {
-            if (recipe == null) return BadRequest("Invalid data");
+            if (recipedto == null) return BadRequest("Invalid data");
+            List<IngredientValue> ingredientValues = new List<IngredientValue>();
+            //oao mmmmmm aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa pmgt
+            Recipe recipe = new Recipe()
+            {
+                Name = recipedto.Name,
+                Instruction = recipedto.Instruction,
+                IngredientValues= ingredientValues
+            };
             context.Recipes.Add(recipe);
             await context.SaveChangesAsync();
             return Ok();

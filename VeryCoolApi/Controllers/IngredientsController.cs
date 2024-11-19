@@ -16,28 +16,50 @@ namespace VeryCoolApi.Controllers
         }
 
         [HttpPost("CreateNewIngredient")]
-        public async Task<ActionResult> CreateNewIngredient(Ingredient ingredient)
+        public async Task<ActionResult> CreateNewIngredient(IngredientDTO ingredientdto)
         {
-            if (ingredient == null) return BadRequest("Invalid data");
+            if (ingredientdto == null) return BadRequest("Invalid data");
+            Ingredient ingredient = new Ingredient()
+            {
+                Name = ingredientdto.Name,
+                Measurement = ingredientdto.Measurement,
+                IngredientValues = new List<IngredientValue>()
+            };
             context.Ingredients.Add(ingredient);
             await context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpGet("GetIngredientsList")]
-        public async Task<ActionResult<List<Ingredient>>> GetIngredientsList()
+        public async Task<ActionResult<List<IngredientDTO>>> GetIngredientsList()
         {
-            List<Ingredient> result = [.. context.Ingredients];
+            List<IngredientDTO> result = new List<IngredientDTO>(); 
+            foreach (var i in context.Ingredients)
+            {
+                IngredientDTO ingredient = new IngredientDTO()
+                {
+                    Id= i.Id,
+                    Name = i.Name,
+                    Measurement = i.Measurement
+                };
+                result.Add(ingredient);
+            }
             return Ok(result);
         }
 
         [HttpGet("GetIngredientById")]
-        public async Task<ActionResult<Ingredient>> GetIngredientById(int id)
+        public async Task<ActionResult<IngredientDTO>> GetIngredientById(int id)
         {
             if (id==0) return BadRequest("Invalid data");
             Ingredient ingredient= await context.Ingredients.FirstOrDefaultAsync(x => x.Id==id);
             if (ingredient == null) return NotFound();
-            return Ok(ingredient);
+            IngredientDTO result = new IngredientDTO()
+            {
+                Id = ingredient.Id,
+                Name = ingredient.Name,
+                Measurement = ingredient.Measurement
+            };
+            return Ok(result);
         }
 
         [HttpGet("DeleteIngredient")]
@@ -50,5 +72,11 @@ namespace VeryCoolApi.Controllers
             await context.SaveChangesAsync();
             return  Ok();
         }
+
+        //[HttpPost("CreateNewIngredientValue")]
+        //public async Task<ActionResult> CreateNewIngredientValue(IngredientValueDTO ingredientValueDTO)
+        //{
+
+        //}
     }
 }
