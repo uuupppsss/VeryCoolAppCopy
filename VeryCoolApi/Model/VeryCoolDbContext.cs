@@ -38,7 +38,7 @@ public partial class VeryCoolDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("IngredientDTO");
+            entity.ToTable("Ingredient");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Measurement)

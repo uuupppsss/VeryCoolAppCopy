@@ -13,9 +13,9 @@ namespace VeryCoolApp.ViewModel
         private CookingServise service;
         private DialogServise dialogServise;
 
-        private List<Ingredient> _ingredients;
+        private List<IngredientDTO> _ingredients;
 
-        public List<Ingredient> Ingredients
+        public List<IngredientDTO> Ingredients
         {
             get => _ingredients;
             set 
@@ -25,9 +25,9 @@ namespace VeryCoolApp.ViewModel
             }
         }
 
-        private Ingredient _selectedIngredient;
+        private IngredientDTO _selectedIngredient;
 
-        public Ingredient SelectedIngredient
+        public IngredientDTO SelectedIngredient
         {
             get => _selectedIngredient;
             set {

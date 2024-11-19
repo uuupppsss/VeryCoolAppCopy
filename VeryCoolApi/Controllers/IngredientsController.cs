@@ -12,7 +12,7 @@ namespace VeryCoolApi.Controllers
         readonly VeryCoolDbContext context;
         public IngredientsController(VeryCoolDbContext context)
         {
-            this.context = context;
+            this.context = context; 
         }
 
         [HttpPost("CreateNewIngredient")]
@@ -23,7 +23,7 @@ namespace VeryCoolApi.Controllers
             {
                 Name = ingredientdto.Name,
                 Measurement = ingredientdto.Measurement,
-                IngredientValues = new List<IngredientValue>()
+                IngredientValues = []
             };
             context.Ingredients.Add(ingredient);
             await context.SaveChangesAsync();
@@ -33,16 +33,16 @@ namespace VeryCoolApi.Controllers
         [HttpGet("GetIngredientsList")]
         public async Task<ActionResult<List<IngredientDTO>>> GetIngredientsList()
         {
-            List<IngredientDTO> result = new List<IngredientDTO>(); 
-            foreach (var i in context.Ingredients)
+            List<IngredientDTO> result = new List<IngredientDTO>();
+            var ingrediens = context.Ingredients.ToList();
+            foreach (Ingredient i in ingrediens)
             {
-                IngredientDTO ingredient = new IngredientDTO()
+                result.Add(new IngredientDTO()
                 {
-                    Id= i.Id,
+                    Id = i.Id,
                     Name = i.Name,
                     Measurement = i.Measurement
-                };
-                result.Add(ingredient);
+                });
             }
             return Ok(result);
         }
@@ -78,5 +78,14 @@ namespace VeryCoolApi.Controllers
         //{
 
         //}
+
+        [HttpGet("GetIngredientsValues")]
+        public async Task<ActionResult<IngredientValueDTO>> GetIngredientsValues(int recipe_id)
+        {
+            if (recipe_id == 0) return BadRequest("Invalid data");
+            var ingredient_value = context.IngredientValues.FirstOrDefault(i=>i.RecipeId==recipe_id);
+            if (ingredient_value==null) return NotFound();
+            
+        }
     }
 }

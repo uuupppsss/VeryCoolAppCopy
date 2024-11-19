@@ -11,5 +11,5 @@ public partial class Ingredient
 
     public string Measurement { get; set; } = null!;
 
-    public virtual ICollection<IngredientValue> IngredientValues { get; set; } = new List<IngredientValue>();
+    public virtual ICollection<IngredientValue> IngredientValues { get; set; } = [];
 }

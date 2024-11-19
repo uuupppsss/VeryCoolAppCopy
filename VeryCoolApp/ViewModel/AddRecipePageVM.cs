@@ -37,9 +37,9 @@ namespace VeryCoolApp.ViewModel
 			}
 		}
 
-		private Ingredient _selectedIngredient;
+		private IngredientDTO _selectedIngredient;
 
-		public Ingredient SelectedIngredient
+		public IngredientDTO SelectedIngredient
 		{
 			get =>_selectedIngredient; 
 			set 
@@ -51,7 +51,18 @@ namespace VeryCoolApp.ViewModel
 		}
 
 
-		public List<Ingredient> FullIngredientsList { get; set; }
+		private List<IngredientDTO> _fullIngredientsList;
+
+		public List<IngredientDTO> FullIngredientsList
+        {
+			get => _fullIngredientsList; 
+			set 
+			{
+				_fullIngredientsList = value;
+				Signal();
+			}
+		}
+
 		private List<IngredientValue> SelectedIngredientsList;
 		public CommandVM AddNewRecipeCommand { get; set; }
 		
@@ -78,7 +89,6 @@ namespace VeryCoolApp.ViewModel
                         Instruction = Instruction,
                         IngredientValues = ingredients_values
                     });
-                    await dialogServise.ShowWarning("Всё чики пуки", "Рецепт добавлен");
                 }
 				
 			});

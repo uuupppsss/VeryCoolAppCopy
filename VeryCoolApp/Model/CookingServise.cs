@@ -35,13 +35,13 @@ namespace VeryCoolApp.Model
 
         // Методы для работы с Ingredient
 
-        public async Task AddIngredientAsync(Ingredient ingredient)
+        public async Task AddIngredientAsync(IngredientDTO ingredient)
         {
             try
             {
                 string json = JsonSerializer.Serialize(ingredient);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var responce = await client.PostAsync("IngredientValues/CreateNewIngredient", content);
+                var responce = await client.PostAsync("Ingredients/CreateNewIngredient", content);
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");
@@ -55,17 +55,17 @@ namespace VeryCoolApp.Model
             }
         }
 
-        public async Task<List<Ingredient>> GetAllIngredientsAsync()
+        public async Task<List<IngredientDTO>> GetAllIngredientsAsync()
         {
             try
             {
-                var responce = await client.GetAsync("IngredientValues/GetIngredientsList");
+                var responce = await client.GetAsync("Ingredients/GetIngredientsList");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");
                     return null;
                 }
-                else return await responce.Content.ReadFromJsonAsync<List<Ingredient>>();
+                else return await responce.Content.ReadFromJsonAsync<List<IngredientDTO>>();
             }
             catch (Exception ex)
             {
@@ -74,11 +74,11 @@ namespace VeryCoolApp.Model
             }
         }
 
-        public async Task<Ingredient> GetIngredientByIdAsync(int id)
+        public async Task<IngredientDTO> GetIngredientByIdAsync(int id)
         {
             try
             {
-                var responce = await client.GetAsync($"IngredientValues/GetIngredientById?id={id}");
+                var responce = await client.GetAsync($"Ingredients/GetIngredientById?id={id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");
@@ -86,7 +86,7 @@ namespace VeryCoolApp.Model
                 }
                 else
                 {
-                    return await responce.Content.ReadFromJsonAsync<Ingredient>();
+                    return await responce.Content.ReadFromJsonAsync<IngredientDTO>();
                 }
             }
             catch (Exception ex)
@@ -101,7 +101,7 @@ namespace VeryCoolApp.Model
         {
             try
             {
-                var responce = await client.GetAsync($"IngredientValues/DeleteIngredient?id={id}");
+                var responce = await client.GetAsync($"Ingredients/DeleteIngredient?id={id}");
                 if (!responce.IsSuccessStatusCode)
                 {
                     await dialogServise.ShowWarning("Что то пошло не так ", $"Ошибка: {responce.StatusCode}");

@@ -40,13 +40,12 @@ namespace VeryCoolApp.ViewModel
             {
                 if (Name != null && Measurement != null)
                 {
-                    Ingredient ingredient_to_add = new Ingredient()
+                    IngredientDTO ingredient_to_add = new IngredientDTO()
                     {
                         Name = Name,
                         Measurement = Measurement
                     };
                     await service.AddIngredientAsync(ingredient_to_add);
-                    await dialogServise.ShowWarning("Всё чики пуки", "Ингридиент добавлен");
                 }
                 else
                 {

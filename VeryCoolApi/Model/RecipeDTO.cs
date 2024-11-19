@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VeryCoolApi.Model;
 
-public partial class RecipeDTO
+public class RecipeDTO
 {
     public int Id { get; set; }
 

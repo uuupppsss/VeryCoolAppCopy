@@ -19,7 +19,7 @@ namespace VeryCoolApi.Controllers
         public async Task<ActionResult> CreateNewRecipe(RecipeDTO recipedto)
         {
             if (recipedto == null) return BadRequest("Invalid data");
-            List<IngredientValue> ingredientValues = new List<IngredientValue>();
+            List<IngredientValue> ingredientValues = [];
             //oao mmmmmm aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa pmgt
             Recipe recipe = new Recipe()
             {
