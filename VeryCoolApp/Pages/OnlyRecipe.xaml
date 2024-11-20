@@ -12,7 +12,7 @@
         <Label Text="Для этого нужно:" />
         <Label Text="{Binding SelectedRecipe.Instruction}" LineBreakMode="WordWrap" MaxLines="0"/>
         <Label Text="Вам понадобится:" />
-        <ListView ItemsSource="{Binding SelectedRecipe.Ingredients}">
+        <ListView ItemsSource="{Binding SelectedRecipe.IngredientValues}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <HorizontalStackLayout>

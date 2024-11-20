@@ -16,20 +16,20 @@ namespace VeryCoolApi.Controllers
         }
 
         [HttpPost("CreateNewRecipe")]
-        public async Task<ActionResult> CreateNewRecipe(RecipeDTO recipedto)
+        public async Task<ActionResult<int>> CreateNewRecipe(RecipeDTO recipedto)
         {
             if (recipedto == null) return BadRequest("Invalid data");
             List<IngredientValue> ingredientValues = [];
-            //oao mmmmmm aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa pmgt
             Recipe recipe = new Recipe()
             {
                 Name = recipedto.Name,
                 Instruction = recipedto.Instruction,
-                IngredientValues= ingredientValues
+                IngredientValues = ingredientValues
             };
             context.Recipes.Add(recipe);
             await context.SaveChangesAsync();
-            return Ok();
+            Recipe just_added_recipe=context.Recipes.ToList().Last();
+            return Ok(just_added_recipe.Id);
         }
 
         [HttpGet("GetRecipesList")]
@@ -43,7 +43,7 @@ namespace VeryCoolApi.Controllers
         public async Task<ActionResult<Recipe>> GetRecipeById(int id)
         {
             if (id == 0) return BadRequest("Invalid data");
-            Recipe recipe= await context.Recipes.FirstOrDefaultAsync(r=>r.Id==id);
+            Recipe recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
             if (recipe == null) return NotFound();
             return Ok(recipe);
         }
@@ -51,10 +51,24 @@ namespace VeryCoolApi.Controllers
         [HttpGet("DeleteRecipe")]
         public async Task<ActionResult> DeleteRecipe(int id)
         {
-            if(id==0) return BadRequest("Invalid data");
-            Recipe recipe = await context.Recipes.FirstOrDefaultAsync(r=> r.Id==id);
+            if (id == 0) return BadRequest("Invalid data");
+            Recipe recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
             if (recipe == null) return NotFound();
             context.Recipes.Remove(recipe);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpGet("DefineIngredientValuesForRecipe")]
+        public async Task<ActionResult> DefineIngredientValuesForRecipe(int recipe_id)
+        {
+            if(recipe_id == 0) return BadRequest("Invalid data");
+            List<IngredientValue> ingredientValues = new List<IngredientValue>();
+            ingredientValues.AddRange(context.IngredientValues.Where(iv => iv.RecipeId == recipe_id));
+            Recipe recipe = context.Recipes.FirstOrDefault(r => r.Id == recipe_id);
+            if (recipe == null) return NotFound();
+            recipe.IngredientValues = ingredientValues;
+            context.Recipes.Update(recipe);
             await context.SaveChangesAsync();
             return Ok();
         }

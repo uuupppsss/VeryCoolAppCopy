@@ -73,19 +73,44 @@ namespace VeryCoolApi.Controllers
             return  Ok();
         }
 
-        //[HttpPost("CreateNewIngredientValue")]
-        //public async Task<ActionResult> CreateNewIngredientValue(IngredientValueDTO ingredientValueDTO)
-        //{
+        [HttpPost("CreateNewIngredientValues")]
+        public async Task<ActionResult> CreateNewIngredientValues(List<IngredientValueDTO> ingredientValueDTOList)
+        {
+            foreach (var ingredientValueDTO in ingredientValueDTOList)
+            {
+                IngredientValue ingredientValue = new IngredientValue()
+                {
+                    RecipeId = ingredientValueDTO.RecipeId,
+                    IngredientId = ingredientValueDTO.IngredientId,
+                    Quantity = ingredientValueDTO.Quantity,
+                    Ingredient = context.Ingredients.FirstOrDefault(i => i.Id == ingredientValueDTO.IngredientId),
+                    Recipe = context.Recipes.FirstOrDefault(r => r.Id == ingredientValueDTO.RecipeId)
+                };
+                context.IngredientValues.Add(ingredientValue);
+            }
+            await context.SaveChangesAsync();
+            return Ok();
+        }
 
-        //}
-
-        [HttpGet("GetIngredientsValues")]
-        public async Task<ActionResult<IngredientValueDTO>> GetIngredientsValues(int recipe_id)
+        [HttpGet("GetIngredientValuesByRecipeId")]
+        public async Task<ActionResult<List<IngredientValueDTO>>> GetIngredientValuesByRecipeId(int recipe_id)
         {
             if (recipe_id == 0) return BadRequest("Invalid data");
-            var ingredient_value = context.IngredientValues.FirstOrDefault(i=>i.RecipeId==recipe_id);
-            if (ingredient_value==null) return NotFound();
-            
+            List<IngredientValueDTO> result= new List<IngredientValueDTO>();
+            foreach (var i in context.IngredientValues)
+            {
+               if (i.RecipeId == recipe_id)
+                {
+                    result.Add(new IngredientValueDTO()
+                    {
+                        Id = i.Id,
+                        RecipeId = i.RecipeId,
+                        IngredientId = i.IngredientId,
+                        Quantity = i.Quantity
+                    });
+                }
+            }
+            return Ok(result);
         }
     }
 }

@@ -83,12 +83,13 @@ namespace VeryCoolApp.ViewModel
 				else
 				{
 					List<IngredientValue> ingredients_values = [..SelectedIngredientsList];
-                    await service.AddRecipeAsync(new Recipe()
+                    int recipe_id = await service.AddRecipeAsync(new Recipe()
                     {
                         Name = Name,
-                        Instruction = Instruction,
-                        IngredientValues = ingredients_values
+                        Instruction = Instruction
                     });
+					await service.CreateNewIngredientValues(ingredients_values, recipe_id);
+					await service.DefineIngredientValuesForRecipe(recipe_id);
                 }
 				
 			});
@@ -117,8 +118,6 @@ namespace VeryCoolApp.ViewModel
 					IngredientId = SelectedIngredient.Id,
 					Quantity = quality,
 				};
-                
-
 
 				SelectedIngredientsList.Add(ingredientValue);
                 await dialogServise.ShowWarning("Так держать", $"Количество ингредиентов в рецепте: {SelectedIngredientsList.Count}") ;

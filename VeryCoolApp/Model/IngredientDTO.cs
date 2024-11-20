@@ -9,10 +9,9 @@ namespace VeryCoolApp.Model
         public string Name { get; set; }
 
         public string Measurement { get; set; }
-
         public override string ToString()
         {
-            return $"{Name} - {Measurement}";
+            return $"{Name}, {Measurement}";
         }
     }
 }
