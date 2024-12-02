@@ -40,7 +40,7 @@ namespace VeryCoolApp.ViewModel
         }
 
         public CommandVM AddNewRecipe {  get; set; }
-        public CommandVM LogOutCommand { get; set; }
+        
 
         public RecipesPageVM()
         {
@@ -53,11 +53,6 @@ namespace VeryCoolApp.ViewModel
                 await Shell.Current.GoToAsync("AddRecipePage");
             });
 
-            LogOutCommand = new CommandVM(async () =>
-            {
-                await Shell.Current.GoToAsync("//MainPage");
-                Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
-            });
             SelectedRecipe = null;
         }
 

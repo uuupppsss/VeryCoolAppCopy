@@ -2,5 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VeryCoolApp.Pages.Header">
-    <Label Text="Добро пожаловать!" HorizontalOptions="Center"/>
+    <StackLayout>
+        <Label Text="Добро пожаловать!" HorizontalOptions="Center"/>
+    </StackLayout>
 </ContentView>

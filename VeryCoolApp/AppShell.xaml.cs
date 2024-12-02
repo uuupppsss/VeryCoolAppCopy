@@ -16,5 +16,11 @@ namespace VeryCoolApp
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
 
         }
+
+        private async void LogOutClick(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
+            await Shell.Current.GoToAsync("//MainPage");
+        }
     }
 }
