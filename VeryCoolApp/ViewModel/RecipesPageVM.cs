@@ -26,23 +26,20 @@ namespace VeryCoolApp.ViewModel
             }
         }
 
-        //private Recipe _selectedRecipe;
+        private Recipe _selectedRecipe;
 
-        //public Recipe SelectedRecipe
-        //{
-        //    get => _selectedRecipe;
-        //    set 
-        //    { 
-        //        _selectedRecipe = value;
-        //        SelectedRecipeChanged(value);
-        //        Signal();
-        //    }
-        //}
+        public Recipe SelectedRecipe
+        {
+            get => _selectedRecipe;
+            set
+            {
+                _selectedRecipe = value;
+                SelectedRecipeChanged(value);
+                Signal();
+            }
+        }
 
         public CommandVM AddNewRecipe {  get; set; }
-
-        //public CommandVM RecipeTapped { get; set; }
-        
 
         public RecipesPageVM()
         {
@@ -54,18 +51,7 @@ namespace VeryCoolApp.ViewModel
             {
                 await Shell.Current.GoToAsync("AddRecipePage");
             });
-            //RecipeTapped = new CommandVM(async()=>
-            //{
-            //    if (SelectedRecipe != null)
-            //    {
-            //        var navigationParameter = new ShellNavigationQueryParameters
-            //        {
-            //            { "SelectedRecipe", SelectedRecipe }
-            //        };
-            //        await Shell.Current.GoToAsync("OnlyRecipe", navigationParameter);
-            //    }
-            //});
-            //SelectedRecipe = null;
+
         }
 
         private async void GetRecipesAsync()
@@ -74,7 +60,7 @@ namespace VeryCoolApp.ViewModel
             
         }
 
-        public async void SelectedRecipeChanged(Recipe recipe)
+        private async void SelectedRecipeChanged(Recipe recipe)
         {
             if (recipe != null)
             {
@@ -83,6 +69,7 @@ namespace VeryCoolApp.ViewModel
                     { "SelectedRecipe", recipe }
                 };
                 await Shell.Current.GoToAsync("OnlyRecipe", navigationParameter);
+                SelectedRecipe = null;
             }
         }
     }
