@@ -12,7 +12,7 @@ namespace VeryCoolApp.ViewModel
     public class RecipesPageVM:BaseVM
     {
         private CookingServise service;
-        DialogServise dialogServise;
+        //DialogServise dialogServise;
 
         private List<Recipe> _recipes;
 
@@ -26,34 +26,46 @@ namespace VeryCoolApp.ViewModel
             }
         }
 
-        private Recipe _selectedRecipe;
+        //private Recipe _selectedRecipe;
 
-        public Recipe SelectedRecipe
-        {
-            get => _selectedRecipe;
-            set 
-            { 
-                _selectedRecipe = value;
-                SelectedRecipeChanged(value);
-                Signal();
-            }
-        }
+        //public Recipe SelectedRecipe
+        //{
+        //    get => _selectedRecipe;
+        //    set 
+        //    { 
+        //        _selectedRecipe = value;
+        //        SelectedRecipeChanged(value);
+        //        Signal();
+        //    }
+        //}
 
         public CommandVM AddNewRecipe {  get; set; }
+
+        //public CommandVM RecipeTapped { get; set; }
         
 
         public RecipesPageVM()
         {
             service = CookingServise.Instance;
-            dialogServise = DialogServise.Instance;
+            //dialogServise = DialogServise.Instance;
             service.RecipesCollectionChanged += GetRecipesAsync;
             GetRecipesAsync();
             AddNewRecipe = new CommandVM(async() =>
             {
                 await Shell.Current.GoToAsync("AddRecipePage");
             });
-
-            SelectedRecipe = null;
+            //RecipeTapped = new CommandVM(async()=>
+            //{
+            //    if (SelectedRecipe != null)
+            //    {
+            //        var navigationParameter = new ShellNavigationQueryParameters
+            //        {
+            //            { "SelectedRecipe", SelectedRecipe }
+            //        };
+            //        await Shell.Current.GoToAsync("OnlyRecipe", navigationParameter);
+            //    }
+            //});
+            //SelectedRecipe = null;
         }
 
         private async void GetRecipesAsync()
@@ -61,8 +73,8 @@ namespace VeryCoolApp.ViewModel
             Recipes = await service.GetAllRecipesAsync();
             
         }
-        
-        private async void SelectedRecipeChanged(Recipe recipe)
+
+        public async void SelectedRecipeChanged(Recipe recipe)
         {
             if (recipe != null)
             {
