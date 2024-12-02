@@ -385,7 +385,7 @@ namespace VeryCoolApp.Model
                 }
                 else
                 {
-                    await dialogServise.ShowWarning("Успех ", $"Пользователь {user.Login} зарегистрирован успеiно ");
+                    await dialogServise.ShowWarning("Успех ", $"Пользователь {user.Login} зарегистрирован успешно ");
                 }
             }
             catch (Exception ex)
